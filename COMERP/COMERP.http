@@ -1,0 +1,6 @@
+@COMERP_HostAddress = http://localhost:5204
+
+GET {{COMERP_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
