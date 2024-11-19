@@ -1,0 +1,104 @@
+﻿@model UI.Models.User
+@using System.Security.Claims
+@using Microsoft.IdentityModel.JsonWebTokens
+
+
+@{
+    var EntityName = "User";
+    var ModelID = $"COMERP_{EntityName}ModelCreate";
+    var FromID = $"{EntityName}Form";
+    var SaveChangesId = $"btnSave{EntityName}";
+    var UpdateId = $"btnUpdate{EntityName}";
+}
+
+<div class="modal fade" id=@ModelID tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="myModalLabelAdd" class="modal-title">Create @EntityName</h5>
+                <h5 id="myModalLabelUpdate" class="modal-title">Update @EntityName</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id=@FromID class="row g-3">
+                    <div class="col-md-6 note">
+                        <label asp-for="FirstName" class="form-label">
+                            First Name
+                            <span class="text-danger font-weight-bold">*</span>
+                        </label>
+                        <input type="text" asp-for="FirstName" class="form-control" id="FirstName">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    
+                    
+                    <div class="col-md-6">
+                        <label asp-for="LastName" class="form-label">
+                            Last Name
+                            <span class="text-danger font-weight-bold">*</span>
+                        </label>
+                        <input type="text" asp-for="LastName" class="form-control" id="LastName">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="UserName" class="form-label">
+                            User Name
+                            <span class="text-danger font-weight-bold">*</span>
+                        </label>
+                        <input type="text" asp-for="UserName" class="form-control" id="UserName">
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Email" class="form-label">
+                            Email
+                            <span class="text-danger font-weight-bold">*</span>
+                        </label>
+                        <input type="text" asp-for="Email" class="form-control" id="Email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="Phone" class="form-label">
+                            Phone
+                            <span class="text-danger font-weight-bold">*</span>
+                        </label>
+                        <input type="text" asp-for="Phone" class="form-control" id="Phone">
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" asp-for="RoleName">
+                            Role
+                            <span class="text-danger font-weight-bold">*</span>
+                        </label>
+                        <select class="form-select" asp-for="RoleName" id="RolesDropdown">
+                            <option value="">Select Roles</option>
+                        </select>
+                        <span asp-validation-for="RoleName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Password" class="form-label">
+                            Password
+                            <span class="text-danger font-weight-bold">*</span>
+                        </label>
+                        <input type="password" asp-for="Password" class="form-control" id="Password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="ConfirmationPassword" class="form-label">
+                            Confirmation Password
+                            <span class="text-danger font-weight-bold">*</span>
+                        </label>
+                        <input type="password" asp-for="ConfirmationPassword" class="form-control" id="ConfirmationPassword">
+                        <span asp-validation-for="ConfirmationPassword" class="text-danger"></span>
+                    </div>
+                    
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id=@SaveChangesId>Save changes</button>
+                <button type="button" class="btn btn-primary" id=@UpdateId>Update</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Large Modal-->

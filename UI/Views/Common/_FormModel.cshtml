@@ -1,0 +1,87 @@
+﻿@model UI.Models.Company
+@using System.Security.Claims
+@using Microsoft.IdentityModel.JsonWebTokens
+
+@{
+    var userName = string.Empty;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var claimsIdentity = User.Identity as ClaimsIdentity;
+        if (claimsIdentity != null)
+        {
+            // Extract the username from claims
+            var userNameClaim = claimsIdentity.FindFirst(ClaimTypes.Name);
+            if (userNameClaim != null)
+            {
+                userName = userNameClaim.Value;
+            }
+        }
+    }
+}
+
+@{
+    var EntityName = "Verb";
+    var ModelID = $"{EntityName}ModelCreate";
+    var FromID = $"{EntityName}Form";
+    var SaveChangesId = $"btnSave{EntityName}";
+    var UpdateId = $"btnUpdate{EntityName}";
+}
+
+<div class="modal fade" id=@ModelID tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="myModalLabelAdd" class="modal-title">Create @EntityName</h5>
+                <h5 id="myModalLabelUpdate" class="modal-title">Update @EntityName</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id=@FromID>
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="control-label">
+                                        Name
+                                        <span class="text-danger font-weight-bold">*</span>
+                                    </label>
+                                    <input asp-for="Name" placeholder="Enter Company Name" class="form-control" id="Name" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                                
+                            </div>
+                            <div class="col-md-6">
+                                
+                               @*  <div class="form-group">
+                                    <label class="control-label" asp-for="CompanyId"></label>
+                                    <select class="form-control" asp-for="CompanyId" id="CompanyDropdown">
+                                        <option value="">Select Company</option>
+                                    </select>
+                                </div> *@
+                                <div class="col-12" hidden>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                                        <label class="form-check-label" for="invalidCheck">
+                                            Agree to terms and conditions
+                                        </label>
+                                        <div class="invalid-feedback">
+                                            You must agree before submitting.
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id=@SaveChangesId>Save changes</button>
+                <button type="button" class="btn btn-primary" id=@UpdateId>Update</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Large Modal-->

@@ -1,4 +1,5 @@
 ﻿using COMERP.Entities.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace COMERP.Entities
 {
