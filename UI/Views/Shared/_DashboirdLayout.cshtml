@@ -208,6 +208,11 @@
                             <i class="bi bi-circle"></i><span>Users</span>
                         </a>
                     </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="Role">
+                            <i class="bi bi-circle"></i><span>Roles</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item">
@@ -286,11 +291,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 
-    <script type="module" asp-src-include="~/js/utility/helpers.js" asp-append-version="true"></script>
-    <script type="module" asp-src-include="~/js/utility/notification.js" asp-append-version="true"></script>
-    <script type="module" asp-src-include="~/js/utility/objectmaping.js" asp-append-version="true"></script>
-    <script type="module" asp-src-include="~/js/utility/sendrequestutility.js" asp-append-version="true"></script>
-    <script type="module" asp-src-include="~/js/utility/allvalidator.js" asp-append-version="true"></script>
+    <script type="module" asp-src-include="~/js/comerp_utility/comerp_helpers.js" asp-append-version="true"></script>
+    <script type="module" asp-src-include="~/js/comerp_utility/comerp_notification.js" asp-append-version="true"></script>
+    <script type="module" asp-src-include="~/js/comerp_utility/comerp_objectmaping.js" asp-append-version="true"></script>
+    <script type="module" asp-src-include="~/js/comerp_utility/comerp_sendrequestutility.js" asp-append-version="true"></script>
+    <script type="module" asp-src-include="~/js/comerp_utility/comerp_allvalidator.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,9 +1,9 @@
-﻿import { SendRequest, populateDropdown } from '../Utility/SendRequestUtility.js';
-import { createActionButtons, hideLoader, initializeDataTable, resetFormValidation, resetValidation, showCreateModal, showLoader } from '../Utility/helpers.js';
-import { notification, notificationCatch, notificationErrors } from '../Utility/notification.js';
+﻿import { SendRequest, populateDropdown } from '../comerp_Utility/comerp_SendRequestUtility.js';
+import { createActionButtons, hideLoader, initializeDataTable, resetFormValidation, resetValidation, showCreateModal, showLoader } from '../comerp_Utility/comerp_helpers.js';
+import { notification, notificationCatch, notificationErrors } from '../comerp_Utility/comerp_notification.js';
 
 // Dynamically define controller and form elements
-const controllerName = "User";
+const controllerName = "Company";
 const createButton = `#COMERP_Create${controllerName}Btn`;
 const formName = `#${controllerName}Form`;
 const modalCreateId = `#COMERP_${controllerName}ModelCreate`;
@@ -17,18 +17,20 @@ const endpointGetAll = `/${controllerName}/GetAll`;
 const endpointGetById = `/${controllerName}/GetById/`;
 const endpointUpdate = `/${controllerName}/Update/`;
 const endpointDelete = `/${controllerName}/Delete`;
+const addLabel = `#${controllerName}ModalLabelAdd`;
+const updateLabel = `#${controllerName}ModalLabelUpdate`;
 $(document).ready(async function () {
     debugger
     await initGitAllList();
-    await CreateUserBtn(createButton);
+    await CreateCompanyBtn(createButton);
 });
 const initGitAllList = async () => {
-    await getUserList();
+    await getCompanyList();
 }
 
 
 // Dynamically fetch data for verbs or other entities
-const getUserList = async () => {
+const getCompanyList = async () => {
     debugger;
     showLoader(); // Show loader at the start
     try {
@@ -57,11 +59,14 @@ const onSuccessEntities = async (entities) => {
         if (entity) {
             return {
                 id: entity?.id,
-                name: entity.firstName + ' '+ entity.lastName,
-                email: entity.email,
-                phon: entity.phone,
-                user: entity.userName,
-                role: entity.roles[0],
+                name: entity.name,
+                des: entity.description,
+                date: entity.establishedDate ? entity.establishedDate.split('T')[0] : null,
+                email: entity.contactEmail,
+                phone: entity.phone,
+                address: entity.address,
+                website: entity.website,
+               
             };
         }
         return null;
@@ -72,10 +77,12 @@ const onSuccessEntities = async (entities) => {
     // Define the table schema
     const entitySchema = [
         { data: null, title: 'Name', render: (data, type, row) => row.name || "Null" },
-        { data: null, title: 'User Name', render: (data, type, row) => row.user || "Null" },
         { data: null, title: 'Email', render: (data, type, row) => row.email || "Null" },
-        { data: null, title: 'Phone', render: (data, type, row) => row.phon || "Null" },
-        { data: null, title: 'Role', render: (data, type, row) => row.role || "Null" },
+        { data: null, title: 'Phone', render: (data, type, row) => row.phone || "Null" },
+        { data: null, title: 'Address', render: (data, type, row) => row.address || "Null" },
+        { data: null, title: 'Website', render: (data, type, row) => row.website || "Null" },
+        { data: null, title: 'Description', render: (data, type, row) => row.des || "Null" },
+        { data: null, title: 'Date', render: (data, type, row) => row.date || "Null" },
         {
             data: null,
             title: 'Action',
@@ -91,42 +98,10 @@ const onSuccessEntities = async (entities) => {
     // Initialize the DataTable with the transformed data
     await initializeDataTable(entitiesList, entitySchema, dataTableId);
 };
-const createDuplicateCheckValidator = (endpoint, key, errorMessage) => {
-    return function (value, element) {
-        let isValid = false;
-        $.ajax({
-            type: "GET",
-            url: endpoint,
-            data: { key: key, val: value },
-            async: false,
-            success: function (response) {
-                isValid = !response;
-            },
-            error: function () {
-                isValid = false;
-            }
-        });
-        return isValid;
-    };
-}
-
-$.validator.addMethod("checkDuplicateUsername", createDuplicateCheckValidator(
-    "/User/CheckDuplicate",
-    "UserName",
-    "Username already exists."
-));
 
 
-$.validator.addMethod("checkDuplicateEmail", createDuplicateCheckValidator(
-    "/User/CheckDuplicate",
-    "Email",
-    "Email already exists."
-));
-$.validator.addMethod("pwcheck", function (value) {
-    return /[a-z]/.test(value); // At least one lowercase letter
-});
 // Initialize validation
-const InitializegetUservalidation = $(formName).validate({
+const InitializegetCompanyvalidation = $(formName).validate({
     onkeyup: function (element) {
         $(element).valid();
     },
@@ -141,13 +116,13 @@ const InitializegetUservalidation = $(formName).validate({
             minlength: 2,
             maxlength: 50
         },
-        UserName: {
+        CompanyName: {
             required: true,
-            checkDuplicateUsername: true
+           
         },
         Email: {
             required: true,
-            checkDuplicateEmail: true
+            
         },
         Phone: {
             required: true
@@ -155,7 +130,7 @@ const InitializegetUservalidation = $(formName).validate({
         Password: {
             required: true,
             minlength: 6,
-            pwcheck: true 
+            
         },
         ConfirmationPassword: {
             required: true,
@@ -163,7 +138,7 @@ const InitializegetUservalidation = $(formName).validate({
         },
         RoleName: {
             required: true,
-            
+
         }
     },
     messages: {
@@ -177,13 +152,13 @@ const InitializegetUservalidation = $(formName).validate({
             minlength: "Last Name must be between 2 and 50 characters.",
             maxlength: "Last Name must be between 2 and 50 characters."
         },
-        UserName: {
-            required: "User Name is required.",
-            checkDuplicateUsername: "This username is already taken."
+        CompanyName: {
+            required: "Company Name is required.",
+            
         },
         Email: {
             required: "Email is required.",
-            checkDuplicateEmail: "This email is already registered."
+            
         },
         Phone: {
             required: "Phone Number is required."
@@ -191,7 +166,7 @@ const InitializegetUservalidation = $(formName).validate({
         Password: {
             required: "Password is required.",
             minlength: "Password must be at least 6 characters long.",
-            pwcheck: "Password must contain at least one lowercase letter (a-z)." 
+           
         },
         ConfirmationPassword: {
             required: "Confirmation Password is required.",
@@ -223,13 +198,13 @@ const InitializegetUservalidation = $(formName).validate({
 });
 
 // Reset validation and prepare modal
-export const CreateUserBtn = async (CreateBtnId) => {
+export const CreateCompanyBtn = async (CreateBtnId) => {
     // Show Create Model
     $(CreateBtnId).off('click').click(async (e) => {
         e.preventDefault();
         resetFormValidation(formName, $(formName).valid());
-        $('#myModalLabelUpdate').hide();
-        $('#myModalLabelAdd').show();
+        $(updateLabel).hide();
+        $(addLabel).show();
         showCreateModal(modalCreateId, saveButtonId, updateButtonId);
         await populateDropdown('/Role/Getall', '#RolesDropdown', 'roleName', 'roleName', "Select Role");
     });
@@ -257,13 +232,13 @@ $(saveButtonId).off('click').click(async (e) => {
         notificationCatch({ message: error, title: `Error: Failed to Create ${controllerName}` });
     }
 });
-window.updateUser = async (id) => {
+window.updateCompany = async (id) => {
 
     try {
         resetFormValidation(formName, $(formName).valid());
         debugger
-        $('#myModalLabelUpdate').show();
-        $('#myModalLabelAdd').hide();
+        $(updateLabel).show();
+        $(addLabel).hide();
         $(formName)[0].reset();
         await populateDropdown('/Role/Getall', '#RolesDropdown', 'roleName', 'roleName', "Select Role");
         const result = await SendRequest({ endpoint: endpointGetById + id });
@@ -272,17 +247,26 @@ window.updateUser = async (id) => {
             $(updateButtonId).show();
             //update and buind Entity Id
             debugger
-            $('#FirstName').val(result.data.firstName);
-            $('#LastName').val(result.data.lastName);
-            $('#UserName').val(result.data.userName);
-            $('#Email').val(result.data.email);
+            $('#Name').val(result.data.name);
+            $('#Description').val(result.data.description);
+            $('#ContactEmail').val(result.data.contactEmail);
+            $('#Address').val(result.data.address);
+            $('#Website').val(result.data.website);
             $('#Phone').val(result.data.phone);
-            $('#Password').val(result.data.password);
-            $('#ConfirmationPassword').val(result.data.confirmationPassword).html("hiden");
-            $('#RolesDropdown').val(result.data.roles);
+
+            const date = new Date(result.data.establishedDate);
+            const defaultDate = new Date('1970-01-01');
+
+            // Check if birthDate is not the default date
+            if (date.getTime() !== defaultDate.getTime()) {
+                const EstablishedDate = date.toISOString().split('T')[0];
+                $('#EstablishedDate').val(EstablishedDate);
+            } else {
+                $('#EstablishedDate').val('');
+            }
 
             $(modalCreateId).modal('show');
-            resetValidation(InitializegetUservalidation, formName);
+            resetValidation(InitializegetCompanyvalidation, formName);
             $(updateButtonId).off('click').on('click', async (e) => {
                 e.preventDefault();
                 debugger
@@ -298,7 +282,6 @@ window.updateUser = async (id) => {
                 }
             });
         }
-        
     } catch (error) {
         notificationCatch({ message: error, title: `Error: Failed to Update ${controllerName}` });
     }
@@ -308,7 +291,7 @@ window.updateUser = async (id) => {
 ////////    loger("showDetails id " + id);
 ////////}
 
-window.deleteUser = async (id) => {
+window.deleteCompany = async (id) => {
     debugger;
     try {
         $(deleteModelId).modal('show');
@@ -326,5 +309,5 @@ window.deleteUser = async (id) => {
         });
     } catch (error) {
         notificationCatch({ message: error, title: `Error: Failed to Delete ${controllerName}` });
-    } 
+    }
 }

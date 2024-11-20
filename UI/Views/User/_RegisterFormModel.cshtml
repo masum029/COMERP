@@ -9,14 +9,16 @@
     var FromID = $"{EntityName}Form";
     var SaveChangesId = $"btnSave{EntityName}";
     var UpdateId = $"btnUpdate{EntityName}";
+    var AddLabel = $"{EntityName}ModalLabelAdd";
+    var UpdateLabel = $"{EntityName}ModalLabelUpdate";
 }
 
 <div class="modal fade" id=@ModelID tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 id="myModalLabelAdd" class="modal-title">Create @EntityName</h5>
-                <h5 id="myModalLabelUpdate" class="modal-title">Update @EntityName</h5>
+                <h5 id=@AddLabel class="modal-title">Create @EntityName</h5>
+                <h5 id=@UpdateLabel class="modal-title">Update @EntityName</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

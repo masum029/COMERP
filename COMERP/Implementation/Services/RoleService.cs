@@ -21,12 +21,17 @@ namespace COMERP.Implementation.Services
         public async Task<bool> CreateRoleAsync(string roleName)
         {
             var result = await _roleManager.CreateAsync(new ApplicationRole(roleName));
+
             if (!result.Succeeded)
             {
-                throw new NotFoundException($"Role Crated faild : {result.Errors}");
+                // Aggregate all error messages
+                var errorMessages = string.Join(", ", result.Errors.Select(e => e.Description));
+                throw new NotFoundException($"Role creation failed: {errorMessages}");
             }
+
             return result.Succeeded;
         }
+
 
         public async Task<bool> DeleteRoleAsync(string roleId)
         {

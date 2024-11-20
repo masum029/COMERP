@@ -1,0 +1,44 @@
+﻿@model UI.Models.Role
+@using System.Security.Claims
+@using Microsoft.IdentityModel.JsonWebTokens
+
+
+@{
+    var EntityName = "Role";
+    var ModelID = $"COMERP_{EntityName}ModelCreate";
+    var FromID = $"{EntityName}Form";
+    var SaveChangesId = $"btnSave{EntityName}";
+    var UpdateId = $"btnUpdate{EntityName}";
+    var AddLabel = $"{EntityName}ModalLabelAdd";
+    var UpdateLabel = $"{EntityName}ModalLabelUpdate";
+}
+
+<div class="modal fade" id=@ModelID tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id=@AddLabel class="modal-title">Create @EntityName</h5>
+                <h5 id=@UpdateLabel class="modal-title">Update @EntityName</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id=@FromID class="row g-3">
+                    <div class="col-md-6 note">
+                        <label asp-for="RoleName" class="form-label">
+                            Role
+                            <span class="text-danger font-weight-bold">*</span>
+                        </label>
+                        <input type="text" asp-for="RoleName" class="form-control" id="RoleName">
+                        <span asp-validation-for="RoleName" class="text-danger"></span>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id=@SaveChangesId>Save changes</button>
+                <button type="button" class="btn btn-primary" id=@UpdateId>Update</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Large Modal-->
