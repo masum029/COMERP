@@ -1,6 +1,4 @@
-﻿using COMERP.Common;
-
-namespace COMERP.DTOs
+﻿namespace COMERP.DTOs
 {
     public class CompanyDto 
     {

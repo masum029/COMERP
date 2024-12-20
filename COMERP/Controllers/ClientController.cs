@@ -10,20 +10,20 @@ namespace COMERP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CompanyController : ControllerBase
+    public class ClientController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CompanyController(IUnitOfWork unitOfWork, IMapper mapper)
+        public ClientController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
         [HttpPost]
-        public async Task<IActionResult> Create(CompanyDto model)
+        public async Task<IActionResult> Create(ClientDto model)
         {
-            var result = await _unitOfWork.companyRepository.AddCompanySqlAsync(model);
+            var result = await _unitOfWork.clientRepository.AddClientSqlAsync(model);
             return StatusCode((int)HttpStatusCode.Created, new Response<string>
             {
                 Success = result.Success,
@@ -34,10 +34,10 @@ namespace COMERP.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(string id, CompanyDto model)
+        public async Task<IActionResult> Update(string id, ClientDto model)
         {
             model.Id = id;
-            var result = await _unitOfWork.companyRepository.UpdateCompanySqlAsync(model);
+            var result = await _unitOfWork.clientRepository.UpdateClientSqlAsync(model);
             return StatusCode((int)HttpStatusCode.Created, new Response<string>
             {
                 Success = result.Success,
@@ -49,38 +49,38 @@ namespace COMERP.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _unitOfWork.companyRepository.GetAllSqlAsync();
-            return StatusCode((int)HttpStatusCode.OK, new Response<IEnumerable<Company>>
+            var result = await _unitOfWork.clientRepository.GetAllAsync();
+            return StatusCode((int)HttpStatusCode.OK, new Response<IEnumerable<Client>>
             {
                 Success = true,
-                Status = HttpStatusCode.Created,
+                Status = HttpStatusCode.OK,
                 Data = result,
-                Message = "Get All Company successfully."
+                Message = "Get All Client successfully."
             });
         }
         [HttpGet("{id}")]
 
         public async Task<IActionResult> GetById(string id)
         {
-            var result = await _unitOfWork.companyRepository.GetByIdSqlAsync(id);
-            return StatusCode((int)HttpStatusCode.OK, new Response<Company>
+            var result = await _unitOfWork.clientRepository.GetByIdSqlAsync(id);
+            return StatusCode((int)HttpStatusCode.OK, new Response<Client>
             {
                 Success = true,
-                Status = HttpStatusCode.Created,
+                Status = HttpStatusCode.OK,
                 Data = result,
-                Message = " Get Company successfully."
+                Message = " Get Client successfully."
             });
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            await _unitOfWork.companyRepository.DeleteSqlAsync(id);
+            await _unitOfWork.clientRepository.DeleteSqlAsync(id);
             return StatusCode((int)HttpStatusCode.OK, new Response<string>
             {
                 Success = true,
                 Status = HttpStatusCode.OK,
                 Data = "Success",
-                Message = "Company Delete successfully."
+                Message = "Client Delete successfully."
             });
         }
     }
