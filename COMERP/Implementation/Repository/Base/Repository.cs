@@ -40,14 +40,13 @@ namespace COMERP.Implementation.Repository.Base
 
         public async Task<(bool Success, string Message)> DeleteAsync(string id)
         {
-            var entity = await GetByIdAsync(id);
+            var entity = await _dbSet.FindAsync(id);
             if (entity == null)
             {
                 return (false, "Entity not found.");
             }
             _dbSet.Remove(entity);
             return (true, "Entity Delete successfully");
-
         }
         public async Task<IEnumerable<T>> GetAllAsync()
         {

@@ -176,10 +176,9 @@ namespace COMERP.Middlewares
                     break;
                 // Add other exception types as needed
                 default:
-                    status = HttpStatusCode.InternalServerError;
-                    title = "Internal Server Error Occurred";
-                    message = "An error occurred while processing your request.";
+                    (status, title, message) = GetDefaultExceptionResponse(exception);
                     break;
+
             }
 
             var problemDetails = new ProblemDetails
@@ -195,6 +194,27 @@ namespace COMERP.Middlewares
 
             var jsonResult = System.Text.Json.JsonSerializer.Serialize(problemDetails);
             await context.Response.WriteAsync(jsonResult);
+        }
+        private static (HttpStatusCode Status, string Title, string Message) GetDefaultExceptionResponse(Exception exception)
+        {
+            var innerExceptionMessages = new List<string>();
+            var currentException = exception.InnerException;
+
+            while (currentException != null)
+            {
+                innerExceptionMessages.Add(currentException.Message);
+                currentException = currentException.InnerException;
+            }
+
+            var innerExceptionDetail = innerExceptionMessages.Any()
+                ? $" Inner exception(s): {string.Join(" -> ", innerExceptionMessages)}"
+                : string.Empty;
+
+            return (
+                HttpStatusCode.InternalServerError,
+                "Internal Server Error",
+                $"An unexpected error occurred: {exception.Message}.{innerExceptionDetail}"
+            );
         }
     }
 }

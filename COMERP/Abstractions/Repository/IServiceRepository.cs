@@ -9,5 +9,7 @@ namespace COMERP.Abstractions.Repository
         // Add specific command methods here if needed
         Task<(bool Success, string id, string Message)> AddServiceSqlAsync(ServiceDto model);
         Task<(bool Success, string id, string Message)> UpdateServiceSqlAsync(ServiceDto model);
+        Task<IEnumerable<Service>> GetServiceSqlAsync();
+        Task<Service> GetServiceByIdSqlAsync(string id);
     }
 }

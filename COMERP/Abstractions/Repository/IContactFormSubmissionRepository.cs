@@ -9,5 +9,7 @@ namespace COMERP.Abstractions.Repository
         // Add specific command methods here if needed
         Task<(bool Success, string id, string Message)> AddContactFormSubmissionSqlAsync(ContactFormSubmissionDto model);
         Task<(bool Success, string id, string Message)> UpdateContactFormSubmissionSqlAsync(ContactFormSubmissionDto model);
+        Task<IEnumerable<ContactFormSubmission>> GetContactFormSubmissionSqlAsync();
+        Task<ContactFormSubmission> GetContactFormSubmissionByIdSqlAsync(string id);
     }
 }

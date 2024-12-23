@@ -9,5 +9,7 @@ namespace COMERP.Abstractions.Repository
         // Add specific command methods here if needed
         Task<(bool Success, string id, string Message)> AddCompanyDetailsSqlAsync(CompanyDetailsDto model);
         Task<(bool Success, string id, string Message)> UpdateCompanyDetailsSqlAsync(CompanyDetailsDto model);
+        Task<IEnumerable<CompanyDetails>> GetCompanyDetailsSqlAsync();
+        Task<CompanyDetails> GetCompanyDetailsByIdSqlAsync(string id);
     }
 }

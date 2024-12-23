@@ -49,7 +49,7 @@ namespace COMERP.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _unitOfWork.clientRepository.GetAllAsync();
+            var result = await _unitOfWork.clientRepository.GetClientSqlAsync();
             return StatusCode((int)HttpStatusCode.OK, new Response<IEnumerable<Client>>
             {
                 Success = true,
@@ -62,7 +62,7 @@ namespace COMERP.Controllers
 
         public async Task<IActionResult> GetById(string id)
         {
-            var result = await _unitOfWork.clientRepository.GetByIdSqlAsync(id);
+            var result = await _unitOfWork.clientRepository.GetClientByIdSqlAsync(id);
             return StatusCode((int)HttpStatusCode.OK, new Response<Client>
             {
                 Success = true,

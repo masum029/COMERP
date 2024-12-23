@@ -66,11 +66,11 @@ namespace COMERP.Implementation.Repository
 
                         return (true, companyId, "Company added successfully.");
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         // Rollback transaction if there's an error
                         transaction.Rollback();
-                        throw new NotFoundException(ex.Message);
+                        throw ;
                     }
                 }
             }
@@ -127,11 +127,11 @@ namespace COMERP.Implementation.Repository
 
                         return (true, model.Id, "Company updated successfully.");
                     }
-                    catch (Exception ex)
+                    catch (Exception )
                     {
                         // Rollback the transaction in case of an error
                         transaction.Rollback();
-                        throw new NotFoundException(ex.Message);
+                        throw ;
                     }
                 }
             }

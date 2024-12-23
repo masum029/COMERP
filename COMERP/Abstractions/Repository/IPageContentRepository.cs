@@ -9,5 +9,7 @@ namespace COMERP.Abstractions.Repository
         // Add specific command methods here if needed
         Task<(bool Success, string id, string Message)> AddPageContentSqlAsync(PageContentDto model);
         Task<(bool Success, string id, string Message)> UpdatePageContentSqlAsync(PageContentDto model);
+        Task<IEnumerable<PageContent>> GetPageContentSqlAsync();
+        Task<PageContent> GetPageContentByIdSqlAsync(string id);
     }
 }

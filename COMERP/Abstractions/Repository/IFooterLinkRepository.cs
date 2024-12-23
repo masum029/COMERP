@@ -9,5 +9,7 @@ namespace COMERP.Abstractions.Repository
         // Add specific command methods here if needed
         Task<(bool Success, string id, string Message)> AddFooterLinkSqlAsync(FooterLinkDto model);
         Task<(bool Success, string id, string Message)> UpdateFooterLinkSqlAsync(FooterLinkDto model);
+        Task<IEnumerable<FooterLink>> GetFooterLinkSqlAsync();
+        Task<FooterLink> GetFooterLinkByIdSqlAsync(string id);
     }
 }

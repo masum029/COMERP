@@ -9,5 +9,7 @@ namespace COMERP.Abstractions.Repository
         // Add specific command methods here if needed
         Task<(bool Success, string id, string Message)> AddMenuSqlAsync(MenuDto model);
         Task<(bool Success, string id, string Message)> UpdateMenuSqlAsync(MenuDto model);
+        Task<IEnumerable<Menu>> GetMenuSqlAsync();
+        Task<Menu> GetMenuByIdSqlAsync(string id);
     }
 }

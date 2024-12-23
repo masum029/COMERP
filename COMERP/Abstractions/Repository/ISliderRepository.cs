@@ -9,5 +9,7 @@ namespace COMERP.Abstractions.Repository
         // Add specific command methods here if needed
         Task<(bool Success, string id, string Message)> AddSliderSqlAsync(SliderDto model);
         Task<(bool Success, string id, string Message)> UpdateSliderSqlAsync(SliderDto model);
+        Task<IEnumerable<Slider>> GetSlidersSqlAsync();
+        Task<Slider> GetSliderByIdSqlAsync(string id);
     }
 }
