@@ -136,8 +136,8 @@ namespace COMERP.Implementation.Repository
                         {
                             eventEntity.Company = company;
                             return eventEntity;
-                        },
-                        splitOn: "CompanyId"
+                        }
+                        
                     );
 
                     return result;
@@ -171,8 +171,8 @@ namespace COMERP.Implementation.Repository
                             eventEntity.Company = company;
                             return eventEntity;
                         },
-                        param: new { Id = id },
-                        splitOn: "CompanyId"
+                        param: new { Id = id }
+                        
                     );
 
                     return result.FirstOrDefault();

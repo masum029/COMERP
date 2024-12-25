@@ -29,9 +29,9 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         INSERT INTO FooterLinks
-        (Id, Title, LinkUrl, DisplayOrder, IsVisible, CompanyId, CreatedDate, CreatedBy)
+        (Id, Title, LinkUrl, DisplayOrder, IsVisible, CompanyId, CreationDate, CreatedBy)
         VALUES
-        (@Id, @Title, @LinkUrl, @DisplayOrder, @IsVisible, @CompanyId, @CreatedDate, @CreatedBy);";
+        (@Id, @Title, @LinkUrl, @DisplayOrder, @IsVisible, @CompanyId, @CreationDate, @CreatedBy);";
 
             using (var connection = _dapperDbContext.CreateConnection())
             {
@@ -49,7 +49,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@DisplayOrder", model.DisplayOrder);
                         parameters.Add("@IsVisible", model.IsVisible);
                         parameters.Add("@CompanyId", model.CompanyId);
-                        parameters.Add("@CreatedDate", DateTime.UtcNow);
+                        parameters.Add("@CreationDate", DateTime.UtcNow);
                         parameters.Add("@CreatedBy", GetUserName());
 
                         await connection.ExecuteAsync(sql, parameters, transaction: transaction);
@@ -75,7 +75,7 @@ namespace COMERP.Implementation.Repository
             DisplayOrder = @DisplayOrder,
             IsVisible = @IsVisible,
             CompanyId = @CompanyId,
-            UpdatedDate = @UpdatedDate,
+            UpdateDate = @UpdateDate,
             UpdatedBy = @UpdatedBy
         WHERE Id = @Id;";
 
@@ -93,7 +93,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@DisplayOrder", model.DisplayOrder);
                         parameters.Add("@IsVisible", model.IsVisible);
                         parameters.Add("@CompanyId", model.CompanyId);
-                        parameters.Add("@UpdatedDate", DateTime.UtcNow);
+                        parameters.Add("@UpdateDate", DateTime.UtcNow);
                         parameters.Add("@UpdatedBy", GetUserName());
 
                         var rowsAffected = await connection.ExecuteAsync(sql, parameters, transaction: transaction);
@@ -135,8 +135,8 @@ namespace COMERP.Implementation.Repository
                         {
                             footerLink.Company = company;
                             return footerLink;
-                        },
-                        splitOn: "CompanyId"
+                        }
+                        
                     );
 
                     return result;
@@ -170,8 +170,8 @@ namespace COMERP.Implementation.Repository
                             footerLink.Company = company;
                             return footerLink;
                         },
-                        param: new { Id = id },
-                        splitOn: "CompanyId"
+                        param: new { Id = id }
+                        
                     );
 
                     return result.FirstOrDefault();

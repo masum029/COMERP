@@ -29,9 +29,9 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         INSERT INTO Projects 
-        (Id, Name, Description, StartDate, EndDate, Status, ClientId, CompanyId, CreatedDate, CreatedBy)
+        (Id, Name, Description, StartDate, EndDate, Status, ClientId, CompanyId, CreationDate, CreatedBy)
         VALUES 
-        (@Id, @Name, @Description, @StartDate, @EndDate, @Status, @ClientId, @CompanyId, @CreatedDate, @CreatedBy);";
+        (@Id, @Name, @Description, @StartDate, @EndDate, @Status, @ClientId, @CompanyId, @CreationDate, @CreatedBy);";
 
             using (var connection = _dapperDbContext.CreateConnection())
             {
@@ -51,7 +51,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@Status", model.Status);
                         parameters.Add("@ClientId", model.ClientId);
                         parameters.Add("@CompanyId", model.CompanyId);
-                        parameters.Add("@CreatedDate", DateTime.UtcNow);
+                        parameters.Add("@CreationDate", DateTime.UtcNow);
                         parameters.Add("@CreatedBy", GetUserName());
 
                         await connection.ExecuteAsync(sql, parameters, transaction: transaction);
@@ -80,7 +80,7 @@ namespace COMERP.Implementation.Repository
                     Status = @Status,
                     ClientId = @ClientId,
                     CompanyId = @CompanyId,
-                    UpdatedDate = @UpdatedDate,
+                    UpdateDate = @UpdateDate,
                     UpdatedBy = @UpdatedBy
                 WHERE Id = @Id;";
 
@@ -100,7 +100,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@Status", model.Status);
                         parameters.Add("@ClientId", model.ClientId);
                         parameters.Add("@CompanyId", model.CompanyId);
-                        parameters.Add("@UpdatedDate", DateTime.UtcNow);
+                        parameters.Add("@UpdateDate", DateTime.UtcNow);
                         parameters.Add("@UpdatedBy", GetUserName());
 
                         var rowsAffected = await connection.ExecuteAsync(sql, parameters, transaction: transaction);
@@ -117,7 +117,7 @@ namespace COMERP.Implementation.Repository
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        throw new Exception("Failed to update project.", ex);
+                        throw ;
                     }
                 }
             }
@@ -127,7 +127,7 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         SELECT 
-            p.Id, p.Name, p.Description, p.StartDate, p.EndDate, p.Status, p.ClientId, p.CompanyId, p.CreatedDate,
+            p.Id, p.Name, p.Description, p.StartDate, p.EndDate, p.Status, p.ClientId, p.CompanyId,
             c.Id, c.Name, c.Address, c.Phone, c.Email, c.CompanyId,
             cmp.Id, cmp.Name, cmp.ContactEmail, cmp.Phone
         FROM Projects p
@@ -154,7 +154,7 @@ namespace COMERP.Implementation.Repository
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Failed to retrieve projects.", ex);
+                    throw ;
                 }
             }
         }
@@ -163,7 +163,7 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
             SELECT 
-                p.Id, p.Name, p.Description, p.StartDate, p.EndDate, p.Status, p.ClientId, p.CompanyId, p.CreatedDate,
+                p.Id, p.Name, p.Description, p.StartDate, p.EndDate, p.Status, p.ClientId, p.CompanyId,
                 c.Id, c.Name, c.Address, c.Phone, c.Email, c.CompanyId,
                 cmp.Id, cmp.Name, cmp.ContactEmail, cmp.Phone
             FROM Projects p
@@ -192,7 +192,7 @@ namespace COMERP.Implementation.Repository
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Failed to retrieve the project.", ex);
+                    throw ;
                 }
             }
         }

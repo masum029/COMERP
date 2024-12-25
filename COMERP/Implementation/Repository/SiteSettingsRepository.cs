@@ -28,7 +28,7 @@ namespace COMERP.Implementation.Repository
         public async Task<(bool Success, string id, string Message)> AddSiteSettingsSqlAsync(SiteSettingsDto model)
         {
             const string sql = @"
-        INSERT INTO SiteSettings
+        INSERT INTO SiteSettingss
         (Id, CompanyId, LogoUrl, FaviconUrl, ContactEmail, Phone, Address, CreatedDate, CreatedBy)
         VALUES (@Id, @CompanyId, @LogoUrl, @FaviconUrl, @ContactEmail, @Phone, @Address, @CreatedDate, @CreatedBy);";
 
@@ -70,13 +70,13 @@ namespace COMERP.Implementation.Repository
         public async Task<(bool Success, string id, string Message)> UpdateSiteSettingsSqlAsync(SiteSettingsDto model)
         {
             const string sql = @"
-            UPDATE SiteSettings
+            UPDATE SiteSettingss
             SET LogoUrl = @LogoUrl,
                 FaviconUrl = @FaviconUrl,
                 ContactEmail = @ContactEmail,
                 Phone = @Phone,
                 Address = @Address,
-                UpdatedDate = @UpdatedDate,
+                UpdateDate = @UpdateDate,
                 UpdatedBy = @UpdatedBy
             WHERE Id = @Id;";
 
@@ -94,7 +94,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@ContactEmail", model.ContactEmail);
                         parameters.Add("@Phone", model.Phone);
                         parameters.Add("@Address", model.Address);
-                        parameters.Add("@UpdatedDate", DateTime.UtcNow);
+                        parameters.Add("@UpdateDate", DateTime.UtcNow);
                         parameters.Add("@UpdatedBy", GetUserName());
 
                         var rowsAffected = await connection.ExecuteAsync(sql, parameters, transaction: transaction);
@@ -123,7 +123,7 @@ namespace COMERP.Implementation.Repository
         SELECT 
             s.Id, s.CompanyId, s.LogoUrl, s.FaviconUrl, s.ContactEmail, s.Phone, s.Address, s.CreatedDate,
             c.Id, c.Name, c.Description, c.EstablishedDate, c.ContactEmail, c.Phone, c.Address, c.Website
-        FROM SiteSettings s
+        FROM SiteSettingss s
         INNER JOIN Companys c ON s.CompanyId = c.Id;";
 
             using (var connection = _dapperDbContext.CreateConnection())
@@ -156,7 +156,7 @@ namespace COMERP.Implementation.Repository
             SELECT 
                 s.Id, s.CompanyId, s.LogoUrl, s.FaviconUrl, s.ContactEmail, s.Phone, s.Address, s.CreatedDate,
                 c.Id, c.Name, c.Description, c.EstablishedDate, c.ContactEmail, c.Phone, c.Address, c.Website
-            FROM SiteSettings s
+            FROM SiteSettingss s
             INNER JOIN Companys c ON s.CompanyId = c.Id
             WHERE s.Id = @Id;";
 

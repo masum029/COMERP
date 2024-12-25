@@ -29,9 +29,9 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         INSERT INTO Services 
-        (Id, Name, Description, Price, DurationHours, CompanyId, CreatedDate, CreatedBy)
+        (Id, Name, Description, Price, DurationHours, CompanyId, CreationDate, CreatedBy)
         VALUES 
-        (@Id, @Name, @Description, @Price, @DurationHours, @CompanyId, @CreatedDate, @CreatedBy);";
+        (@Id, @Name, @Description, @Price, @DurationHours, @CompanyId, @CreationDate, @CreatedBy);";
 
             using (var connection = _dapperDbContext.CreateConnection())
             {
@@ -49,7 +49,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@Price", model.Price);
                         parameters.Add("@DurationHours", model.DurationHours);
                         parameters.Add("@CompanyId", model.CompanyId);
-                        parameters.Add("@CreatedDate", DateTime.UtcNow);
+                        parameters.Add("@CreationDate", DateTime.UtcNow);
                         parameters.Add("@CreatedBy", GetUserName());
 
                         await connection.ExecuteAsync(sql, parameters, transaction: transaction);
@@ -61,7 +61,7 @@ namespace COMERP.Implementation.Repository
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        throw new Exception("Failed to add service.", ex);
+                        throw ;
                     }
                 }
             }
@@ -76,7 +76,7 @@ namespace COMERP.Implementation.Repository
             Price = @Price,
             DurationHours = @DurationHours,
             CompanyId = @CompanyId,
-            UpdatedDate = @UpdatedDate,
+            UpdateDate = @UpdateDate,
             UpdatedBy = @UpdatedBy
         WHERE Id = @Id;";
 
@@ -94,7 +94,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@Price", model.Price);
                         parameters.Add("@DurationHours", model.DurationHours);
                         parameters.Add("@CompanyId", model.CompanyId);
-                        parameters.Add("@UpdatedDate", DateTime.UtcNow);
+                        parameters.Add("@UpdateDate", DateTime.UtcNow);
                         parameters.Add("@UpdatedBy", GetUserName());
 
                         var rowsAffected = await connection.ExecuteAsync(sql, parameters, transaction: transaction);
@@ -111,7 +111,7 @@ namespace COMERP.Implementation.Repository
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        throw new Exception("Failed to update service.", ex);
+                        throw ;
                     }
                 }
             }
@@ -121,7 +121,7 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         SELECT 
-            s.Id, s.Name, s.Description, s.Price, s.DurationHours, s.CompanyId, s.CreatedDate,
+            s.Id, s.Name, s.Description, s.Price, s.DurationHours, s.CompanyId,
             c.Id, c.Name, c.Description, c.EstablishedDate, c.ContactEmail, c.Phone, c.Address, c.Website
         FROM Services s
         INNER JOIN Companys c ON s.CompanyId = c.Id;";
@@ -145,7 +145,7 @@ namespace COMERP.Implementation.Repository
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Failed to retrieve services.", ex);
+                    throw;
                 }
             }
         }
@@ -154,7 +154,7 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         SELECT 
-            s.Id, s.Name, s.Description, s.Price, s.DurationHours, s.CompanyId, s.CreatedDate,
+            s.Id, s.Name, s.Description, s.Price, s.DurationHours, s.CompanyId, 
             c.Id, c.Name, c.Description, c.EstablishedDate, c.ContactEmail, c.Phone, c.Address, c.Website
         FROM Services s
         INNER JOIN Companys c ON s.CompanyId = c.Id
@@ -180,7 +180,7 @@ namespace COMERP.Implementation.Repository
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Failed to retrieve the service.", ex);
+                    throw;
                 }
             }
         }

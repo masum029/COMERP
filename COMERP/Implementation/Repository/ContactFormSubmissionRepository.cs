@@ -137,8 +137,8 @@ namespace COMERP.Implementation.Repository
                         {
                             submission.Company = company;
                             return submission;
-                        },
-                        splitOn: "CompanyId"
+                        }
+                        
                     );
 
                     return result;
@@ -174,8 +174,8 @@ namespace COMERP.Implementation.Repository
                             submission.Company = company;
                             return submission;
                         },
-                        param: new { Id = id },
-                        splitOn: "CompanyId"
+                        param: new { Id = id }
+                        
                     );
 
                     return result.FirstOrDefault();

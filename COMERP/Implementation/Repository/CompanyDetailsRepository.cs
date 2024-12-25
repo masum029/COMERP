@@ -143,6 +143,7 @@ namespace COMERP.Implementation.Repository
                     Vision = @Vision,
                     CoreValues = @CoreValues,
                     UpdateDate = @UpdateDate,
+                    CompanyId = @CompanyId,
                     UpdatedBy = @UpdatedBy
                 WHERE Id = @Id;";
 
@@ -158,6 +159,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@Id", model.Id);
                         parameters.Add("@Mission", model.Mission);
                         parameters.Add("@Vision", model.Vision);
+                        parameters.Add("@CompanyId", model.CompanyId);
                         parameters.Add("@CoreValues", model.CoreValues);
                         parameters.Add("@UpdateDate", DateTime.UtcNow);
                         parameters.Add("@UpdatedBy", GetUserName());

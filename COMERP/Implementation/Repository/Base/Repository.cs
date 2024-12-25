@@ -164,7 +164,7 @@ namespace COMERP.Implementation.Repository.Base
             }
             catch (Exception ex)
             {
-                return (false, null, ex.Message);
+                throw;
             }
         }
         public async Task<IEnumerable<T>> GetAllSqlAsync()

@@ -29,9 +29,9 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         INSERT INTO PageContents 
-        (Id, PageName, SectionTitle, Content, ImageUrl, DisplayOrder, IsVisible, CompanyId, CreatedDate, CreatedBy)
+        (Id, PageName, SectionTitle, Content, ImageUrl, DisplayOrder, IsVisible, CompanyId, CreationDate, CreatedBy)
         VALUES 
-        (@Id, @PageName, @SectionTitle, @Content, @ImageUrl, @DisplayOrder, @IsVisible, @CompanyId, @CreatedDate, @CreatedBy);";
+        (@Id, @PageName, @SectionTitle, @Content, @ImageUrl, @DisplayOrder, @IsVisible, @CompanyId, @CreationDate, @CreatedBy);";
 
             using (var connection = _dapperDbContext.CreateConnection())
             {
@@ -51,7 +51,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@DisplayOrder", model.DisplayOrder);
                         parameters.Add("@IsVisible", model.IsVisible);
                         parameters.Add("@CompanyId", model.CompanyId);
-                        parameters.Add("@CreatedDate", DateTime.UtcNow);
+                        parameters.Add("@CreationDate", DateTime.UtcNow);
                         parameters.Add("@CreatedBy", GetUserName());
 
                         await connection.ExecuteAsync(sql, parameters, transaction: transaction);
@@ -80,7 +80,7 @@ namespace COMERP.Implementation.Repository
                 DisplayOrder = @DisplayOrder,
                 IsVisible = @IsVisible,
                 CompanyId = @CompanyId,
-                UpdatedDate = @UpdatedDate,
+                UpdateDate = @UpdateDate,
                 UpdatedBy = @UpdatedBy
             WHERE Id = @Id;";
 
@@ -100,7 +100,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@DisplayOrder", model.DisplayOrder);
                         parameters.Add("@IsVisible", model.IsVisible);
                         parameters.Add("@CompanyId", model.CompanyId);
-                        parameters.Add("@UpdatedDate", DateTime.UtcNow);
+                        parameters.Add("@UpdateDate", DateTime.UtcNow);
                         parameters.Add("@UpdatedBy", GetUserName());
 
                         var rowsAffected = await connection.ExecuteAsync(sql, parameters, transaction: transaction);
@@ -127,7 +127,7 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         SELECT 
-            p.Id, p.PageName, p.SectionTitle, p.Content, p.ImageUrl, p.DisplayOrder, p.IsVisible, p.CompanyId, p.CreatedDate,
+            p.Id, p.PageName, p.SectionTitle, p.Content, p.ImageUrl, p.DisplayOrder, p.IsVisible, p.CompanyId,
             c.Id, c.Name, c.ContactEmail, c.Phone
         FROM PageContents p
         INNER JOIN Companys c ON p.CompanyId = c.Id;";
@@ -160,7 +160,7 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
             SELECT 
-                p.Id, p.PageName, p.SectionTitle, p.Content, p.ImageUrl, p.DisplayOrder, p.IsVisible, p.CompanyId, p.CreatedDate,
+                p.Id, p.PageName, p.SectionTitle, p.Content, p.ImageUrl, p.DisplayOrder, p.IsVisible, p.CompanyId,
                 c.Id, c.Name, c.ContactEmail, c.Phone
             FROM PageContents p
             INNER JOIN Companys c ON p.CompanyId = c.Id

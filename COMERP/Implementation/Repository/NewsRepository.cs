@@ -29,9 +29,9 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         INSERT INTO Newss
-        (Id, Title, Content, PublishedDate, CompanyId, CreatedDate, CreatedBy)
+        (Id, Title, Content, PublishedDate, CompanyId, CreationDate, CreatedBy)
         VALUES 
-        (@Id, @Title, @Content, @PublishedDate, @CompanyId, @CreatedDate, @CreatedBy);";
+        (@Id, @Title, @Content, @PublishedDate, @CompanyId, @CreationDate, @CreatedBy);";
 
             using (var connection = _dapperDbContext.CreateConnection())
             {
@@ -48,7 +48,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@Content", model.Content);
                         parameters.Add("@PublishedDate", model.PublishedDate);
                         parameters.Add("@CompanyId", model.CompanyId);
-                        parameters.Add("@CreatedDate", DateTime.UtcNow);
+                        parameters.Add("@CreationDate", DateTime.UtcNow);
                         parameters.Add("@CreatedBy", GetUserName());
 
                         await connection.ExecuteAsync(sql, parameters, transaction: transaction);
@@ -74,7 +74,7 @@ namespace COMERP.Implementation.Repository
             Content = @Content,
             PublishedDate = @PublishedDate,
             CompanyId = @CompanyId,
-            UpdatedDate = @UpdatedDate,
+            UpdateDate = @UpdateDate,
             UpdatedBy = @UpdatedBy
         WHERE Id = @Id;";
 
@@ -91,7 +91,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@Content", model.Content);
                         parameters.Add("@PublishedDate", model.PublishedDate);
                         parameters.Add("@CompanyId", model.CompanyId);
-                        parameters.Add("@UpdatedDate", DateTime.UtcNow);
+                        parameters.Add("@UpdateDate", DateTime.UtcNow);
                         parameters.Add("@UpdatedBy", GetUserName());
 
                         var rowsAffected = await connection.ExecuteAsync(sql, parameters, transaction: transaction);
@@ -118,7 +118,7 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         SELECT 
-            n.Id, n.Title, n.Content, n.PublishedDate, n.CompanyId, n.CreatedDate,
+            n.Id, n.Title, n.Content, n.PublishedDate, n.CompanyId,
             c.Id, c.Name, c.ContactEmail, c.Phone
         FROM Newss n
         INNER JOIN Companys c ON n.CompanyId = c.Id;";
@@ -151,7 +151,7 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         SELECT 
-            n.Id, n.Title, n.Content, n.PublishedDate, n.CompanyId, n.CreatedDate,
+            n.Id, n.Title, n.Content, n.PublishedDate, n.CompanyId, 
             c.Id, c.Name, c.ContactEmail, c.Phone
         FROM Newss n
         INNER JOIN Companys c ON n.CompanyId = c.Id

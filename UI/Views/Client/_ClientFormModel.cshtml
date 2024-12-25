@@ -1,0 +1,86 @@
+﻿@model UI.Models.Client
+@using System.Security.Claims
+@using Microsoft.IdentityModel.JsonWebTokens
+
+
+@{
+    var EntityName = "Client";
+    var ModelID = $"COMERP_{EntityName}ModelCreate";
+    var FromID = $"{EntityName}Form";
+    var SaveChangesId = $"btnSave{EntityName}";
+    var UpdateId = $"btnUpdate{EntityName}";
+    var AddLabel = $"{EntityName}ModalLabelAdd";
+    var UpdateLabel = $"{EntityName}ModalLabelUpdate";
+}
+
+<div class="modal fade" id=@ModelID tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id=@AddLabel class="modal-title">Create @EntityName</h5>
+                <h5 id=@UpdateLabel class="modal-title">Update @EntityName</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id=@FromID class="row g-3">
+                    <div class="col-md-6 note">
+                        <label asp-for="Name" class="form-label">
+                            Name
+                            <span class="text-danger font-weight-bold">*</span>
+                        </label>
+                        <input type="text" asp-for="Name" class="form-control" id="Name">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <label asp-for="ContactPerson" class="form-label">
+                            Contact Person
+                        </label>
+                        <input type="text" asp-for="ContactPerson" class="form-control" id="ContactPerson">
+                        <span asp-validation-for="ContactPerson" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Email" class="form-label">
+                            Email
+                        </label>
+                        <input type="email" asp-for="Email" class="form-control" id="Email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="CompanyId" class="form-label">
+                            Company
+                            <span class="text-danger font-weight-bold">*</span>
+                        </label>
+                        <select class="form-control" asp-for="CompanyId" id="CompanyDropdown">
+                            <option value="">Select Company</option>
+                        </select>
+                        <span asp-validation-for="CompanyId" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Phone" class="form-label">
+                            Phone
+                            <span class="text-danger font-weight-bold">*</span>
+                        </label>
+                        <input type="Phone" asp-for="Phone" class="form-control" id="Phone">
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Address" class="form-label">
+                            Address
+                            <span class="text-danger font-weight-bold">*</span>
+                        </label>
+                        <input type="Address" asp-for="Address" class="form-control" id="Address">
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id=@SaveChangesId>Save changes</button>
+                <button type="button" class="btn btn-primary" id=@UpdateId>Update</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Large Modal-->

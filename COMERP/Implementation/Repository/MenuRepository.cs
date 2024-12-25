@@ -29,9 +29,9 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         INSERT INTO Menus
-        (Id, ParentMenuId, Title, LinkUrl, DisplayOrder, IsVisible, CompanyId, CreatedDate, CreatedBy)
+        (Id, ParentMenuId, Title, LinkUrl, DisplayOrder, IsVisible, CompanyId, CreationDate, CreatedBy)
         VALUES 
-        (@Id, @ParentMenuId, @Title, @LinkUrl, @DisplayOrder, @IsVisible, @CompanyId, @CreatedDate, @CreatedBy);";
+        (@Id, @ParentMenuId, @Title, @LinkUrl, @DisplayOrder, @IsVisible, @CompanyId, @CreationDate, @CreatedBy);";
 
             using (var connection = _dapperDbContext.CreateConnection())
             {
@@ -50,7 +50,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@DisplayOrder", model.DisplayOrder);
                         parameters.Add("@IsVisible", model.IsVisible);
                         parameters.Add("@CompanyId", model.CompanyId);
-                        parameters.Add("@CreatedDate", DateTime.UtcNow);
+                        parameters.Add("@CreationDate", DateTime.UtcNow);
                         parameters.Add("@CreatedBy", GetUserName());
 
                         await connection.ExecuteAsync(sql, parameters, transaction: transaction);
@@ -78,7 +78,7 @@ namespace COMERP.Implementation.Repository
             DisplayOrder = @DisplayOrder,
             IsVisible = @IsVisible,
             CompanyId = @CompanyId,
-            UpdatedDate = @UpdatedDate,
+            UpdateDate = @UpdateDate,
             UpdatedBy = @UpdatedBy
         WHERE Id = @Id;";
 
@@ -97,7 +97,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@DisplayOrder", model.DisplayOrder);
                         parameters.Add("@IsVisible", model.IsVisible);
                         parameters.Add("@CompanyId", model.CompanyId);
-                        parameters.Add("@UpdatedDate", DateTime.UtcNow);
+                        parameters.Add("@UpdateDate", DateTime.UtcNow);
                         parameters.Add("@UpdatedBy", GetUserName());
 
                         var rowsAffected = await connection.ExecuteAsync(sql, parameters, transaction: transaction);
@@ -125,7 +125,7 @@ namespace COMERP.Implementation.Repository
             const string sql = @"
         SELECT 
             m.Id, m.ParentMenuId, m.Title, m.LinkUrl, m.DisplayOrder, m.IsVisible, m.CompanyId,
-            p.Id, p.Title AS ParentTitle,
+            p.Id, p.Title ,
             c.Id, c.Name
         FROM Menus m
         LEFT JOIN Menus p ON m.ParentMenuId = p.Id
@@ -144,8 +144,8 @@ namespace COMERP.Implementation.Repository
                             menu.ParentMenu = parentMenu;
                             menu.Company = company;
                             return menu;
-                        },
-                        splitOn: "ParentMenuId,CompanyId"
+                        }
+                        
                     );
 
                     return result;
@@ -162,7 +162,7 @@ namespace COMERP.Implementation.Repository
             const string sql = @"
         SELECT 
             m.Id, m.ParentMenuId, m.Title, m.LinkUrl, m.DisplayOrder, m.IsVisible, m.CompanyId,
-            p.Id, p.Title AS ParentTitle,
+            p.Id, p.Title ,
             c.Id, c.Name
         FROM Menus m
         LEFT JOIN Menus p ON m.ParentMenuId = p.Id
@@ -183,8 +183,8 @@ namespace COMERP.Implementation.Repository
                             menu.Company = company;
                             return menu;
                         },
-                        param: new { Id = id },
-                        splitOn: "ParentMenuId,CompanyId"
+                        param: new { Id = id }
+                        
                     );
 
                     return result.FirstOrDefault();

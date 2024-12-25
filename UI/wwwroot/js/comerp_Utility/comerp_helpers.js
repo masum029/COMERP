@@ -287,3 +287,28 @@ export const showLoader = () => {
 export const hideLoader = () => {
     $('#loader').hide();
 };
+
+
+/**
+    * Sets a date field with a formatted date value or clears it if the value is invalid or default.
+    *
+    * @param {string} fieldId - The selector for the field (e.g., '#StartDate').
+    * @param {string|Date} dateValue - The date value to be processed (in string or Date format).
+    */
+export const setDateField = (fieldId, dateValue) => {
+    const parsedDate = new Date(dateValue);
+    const defaultDate = new Date('1970-01-01');
+
+    // Check if the parsed date is valid and not the default date
+    if (!isNaN(parsedDate.getTime()) && parsedDate.getTime() !== defaultDate.getTime()) {
+        // Format the date in local time (YYYY-MM-DD)
+        const formattedDate = [
+            parsedDate.getFullYear(),
+            String(parsedDate.getMonth() + 1).padStart(2, '0'), // Month is 0-based
+            String(parsedDate.getDate()).padStart(2, '0')
+        ].join('-');
+        $(fieldId).val(formattedDate); // Set the formatted date to the field
+    } else {
+        $(fieldId).val(''); // Clear the field for invalid or default date
+    }
+};

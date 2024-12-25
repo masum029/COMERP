@@ -78,7 +78,7 @@ namespace COMERP.Implementation.Repository
                     LinkUrl = @LinkUrl,
                     DisplayOrder = @DisplayOrder,
                     IsActive = @IsActive,
-                    UpdatedDate = @UpdatedDate,
+                    UpdateDate = @UpdateDate,
                     UpdatedBy = @UpdatedBy
                 WHERE Id = @Id;";
 
@@ -97,7 +97,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@LinkUrl", model.LinkUrl);
                         parameters.Add("@DisplayOrder", model.DisplayOrder);
                         parameters.Add("@IsActive", model.IsActive);
-                        parameters.Add("@UpdatedDate", DateTime.UtcNow);
+                        parameters.Add("@UpdateDate", DateTime.UtcNow);
                         parameters.Add("@UpdatedBy", GetUserName());
 
                         var rowsAffected = await connection.ExecuteAsync(sql, parameters, transaction: transaction);

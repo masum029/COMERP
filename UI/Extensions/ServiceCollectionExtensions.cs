@@ -35,6 +35,19 @@ namespace UI.Extensions
             services.AddScoped<IClientServices<User>, ClientServices<User>>();
             services.AddScoped<IClientServices<Role>, ClientServices<Role>>();
             services.AddScoped<IClientServices<Company>, ClientServices<Company>>();
+            services.AddScoped<IClientServices<Client>, ClientServices<Client>>();
+            services.AddScoped<IClientServices<CompanyDetails>, ClientServices<CompanyDetails>>();
+            services.AddScoped<IClientServices<ContactFormSubmission>, ClientServices<ContactFormSubmission>>();
+            services.AddScoped<IClientServices<Event>, ClientServices<Event>>();
+            services.AddScoped<IClientServices<FooterLink>, ClientServices<FooterLink>>();
+            services.AddScoped<IClientServices<Menu>, ClientServices<Menu>>();
+            services.AddScoped<IClientServices<News>, ClientServices<News>>();
+            services.AddScoped<IClientServices<PageContent>, ClientServices<PageContent>>();
+            services.AddScoped<IClientServices<Project>, ClientServices<Project>>();
+            services.AddScoped<IClientServices<Service>, ClientServices<Service>>();
+            services.AddScoped<IClientServices<SiteSettings>, ClientServices<SiteSettings>>();
+            services.AddScoped<IClientServices<Slider>, ClientServices<Slider>>();
+            services.AddScoped<IClientServices<SocialMediaLink>, ClientServices<SocialMediaLink>>();
 
 
 
