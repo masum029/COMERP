@@ -83,4 +83,41 @@ public class FileUploader : IFileUploader
         return null; // Return null if the file is null or empty
     }
 
+    public async Task<bool> SetFavicon(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            throw new ArgumentException("File is null or empty", nameof(file));
+        }
+
+        // Define the favicon path
+        string folderPath = Path.Combine(_webHostEnvironment.WebRootPath, "assets", "img");
+        string folderPath2 = Path.Combine(_webHostEnvironment.WebRootPath, "client", "assets", "img");
+        string filePath = Path.Combine(folderPath, "favicon.png");
+        string filePath2 = Path.Combine(folderPath2, "favicon.png");
+
+        // Ensure the folder exists
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        // Overwrite or save the favicon
+        try
+        {
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+            using (var stream2 = new FileStream(filePath2, FileMode.Create))
+            {
+                await file.CopyToAsync(stream2);
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+    }
 }

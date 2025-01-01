@@ -1,7 +1,7 @@
 ﻿@using System.Security.Claims
 @using Newtonsoft.Json
-
 @{
+    var company = ViewData["Company"] as Company;
     var userName = string.Empty;
     var userId = string.Empty;
     var userRole = string.Empty;
@@ -110,8 +110,11 @@
         <!-- Start Logo -->
         <div class="d-flex align-items-center justify-content-between">
             <a href="index.html" class="logo d-flex align-items-center">
-                <img src="assets/img/logo.png" alt="">
-                <span class="d-none d-lg-block">COMERP</span>
+               
+                <img src="/images/Logo/@company?.Logo"
+                     alt="Profile Image"
+                     onerror="this.onerror=null;this.src='/ProjectRootImg/default-user.png';">
+                <span class="d-none d-lg-block">@company?.Name</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div>
@@ -335,7 +338,7 @@
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer mt-auto">
         <div class="copyright">
-            &copy; Copyright <strong><span>COMERP</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>@company?.Name</span></strong>. All Rights Reserved
         </div>
         <div class="credits">
             Designed by <a>BootstrapMade</a>

@@ -28,8 +28,8 @@ namespace COMERP.Implementation.Repository
         public async Task<(bool Success, string id, string Message)> AddCompanySqlAsync(CompanyDto model)
         {
             const string sql = @"
-            INSERT INTO Companys (Id, Name, Description, EstablishedDate, ContactEmail, Phone, Address, Website, CreationDate, CreatedBy)
-            VALUES (@Id, @Name, @Description, @EstablishedDate, @ContactEmail, @Phone, @Address, @Website, @CreationDate, @CreatedBy);
+            INSERT INTO Companys (Id, Name, Description, EstablishedDate, ContactEmail, Phone, Address, Website,Logo,isActive, CreationDate, CreatedBy)
+            VALUES (@Id, @Name, @Description, @EstablishedDate, @ContactEmail, @Phone, @Address, @Website,@Logo,@isActive, @CreationDate, @CreatedBy);
             SELECT CAST(SCOPE_IDENTITY() AS varchar);";
 
 
@@ -55,6 +55,8 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@Phone", model.Phone);
                         parameters.Add("@Address", model.Address);
                         parameters.Add("@Website", model.Website);
+                        parameters.Add("@Logo", model.Logo);
+                        parameters.Add("@isActive", model.isActive);
                         parameters.Add("@CreationDate", DateTime.UtcNow);
                         parameters.Add("@CreatedBy", GetUserName()); // Assume this method fetches the username of the currently logged-in user.
 
@@ -88,6 +90,8 @@ namespace COMERP.Implementation.Repository
                                 Phone = @Phone, 
                                 Address = @Address, 
                                 Website = @Website, 
+                                Logo = @Logo, 
+                                isActive = @isActive, 
                                 UpdateDate = @UpdatedDate, 
                                 UpdatedBy = @UpdatedBy 
                             WHERE Id = @Id;";
@@ -110,6 +114,8 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@Phone", model.Phone);
                         parameters.Add("@Address", model.Address);
                         parameters.Add("@Website", model.Website);
+                        parameters.Add("@Logo", model.Logo);
+                        parameters.Add("@isActive", model.isActive);
                         parameters.Add("@UpdatedDate", DateTime.UtcNow);
                         parameters.Add("@UpdatedBy", GetUserName()); // Retrieve the username of the logged-in user
 

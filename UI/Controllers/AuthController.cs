@@ -8,6 +8,7 @@ using UI.Services.Interface;
 using UI.ApiSettings;
 using UI.Dtos;
 using System.IdentityModel.Tokens.Jwt;
+using UI.Models;
 
 
 namespace UI.Controllers
@@ -18,17 +19,20 @@ namespace UI.Controllers
         private readonly IClientServices<Login> _loginServices;
         private readonly ITokenService _tokenService;
         private readonly ApiUrlSettings _apiUrls;
+        private readonly ISessionServices _session;
 
 
         public AuthController(IClientServices<Register> registerServices,
                               IClientServices<Login> loginServices,
                               ITokenService tokenService,
-                              IOptions<ApiUrlSettings> apiUrls)                
+                              IOptions<ApiUrlSettings> apiUrls,
+                              ISessionServices session)
         {
             _registerServices = registerServices;
             _loginServices = loginServices;
             _tokenService = tokenService;
             _apiUrls = apiUrls.Value;
+            _session = session;
         }
 
         public IActionResult Register()
@@ -102,6 +106,8 @@ namespace UI.Controllers
             // Save token to the token service
             _tokenService.SaveToken(loginResponse.Data.token);
 
+            
+
             // Extract role from JWT token before UserLogin
             var handler = new JwtSecurityTokenHandler();
             var jwtToken = handler.ReadJwtToken(loginResponse.Data.token);
@@ -126,6 +132,9 @@ namespace UI.Controllers
             _tokenService.ClearToken();
             // Clear the session data, including the menu
             HttpContext.Session.Remove("UserMenus");
+            HttpContext.Session.Remove("CompanyInfo");
+            
+            _session.DeleteSessonData();
             return RedirectToAction("Index", "Dashboird");
         }
         private async Task UserLogin(string token)

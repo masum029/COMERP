@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using UI.ApiSettings;
@@ -13,17 +14,21 @@ namespace UI.Controllers
     {
         private readonly IClientServices<User> _clintServices;
         private readonly IClientServices<Register> _registerUserServices;
+        private readonly ISessionServices _session;
         private readonly ApiUrlSettings _apiUrls;
 
-        public UserController(IClientServices<User> clintServices, IOptions<ApiUrlSettings> apiUrls, IClientServices<Register> registerUserServices)
+        public UserController(IClientServices<User> clintServices, IOptions<ApiUrlSettings> apiUrls, IClientServices<Register> registerUserServices, ISessionServices session = null)
         {
             _clintServices = clintServices;
             _apiUrls = apiUrls.Value;
             _registerUserServices = registerUserServices;
+            _session = session;
         }
 
         public IActionResult Index()
         {
+            var company = _session.GetCompanyFromSession();
+            ViewData["Company"] = company;
             return View();
         }
         [HttpPost]

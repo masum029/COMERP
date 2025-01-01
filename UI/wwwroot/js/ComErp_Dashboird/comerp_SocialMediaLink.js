@@ -74,9 +74,9 @@ const onSuccessEntities = async (entities) => {
 
     // Define the table schema
     const entitySchema = [
+        { data: null, title: 'Icon', render: (data, type, row) => `<img src="images/Social_Icon/${row?.iconUrl}" alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;" onerror="this.onerror=null;this.src='/ProjectRootImg/default-user.png';" />` }, 
         { data: null, title: 'Platform', render: (data, type, row) => row.platform || "Null" },
         { data: null, title: 'Link', render: (data, type, row) => row.linkUrl || "Null" },
-        { data: null, title: 'Icon', render: (data, type, row) => row.iconUrl || "Null" },
         { data: null, title: 'Order', render: (data, type, row) => row.displayOrder || "Null" },
         {
             data: null, title: 'Visible', render: (data, type, row) => row.isVisible ? '<span style="color: green; font-weight: bold;">Active</span>'
@@ -120,6 +120,9 @@ const InitializegetSocialMediaLinkvalidation = $(formName).validate({
 
         },
         CompanyId: {
+            required: true
+        },
+        FormFile: {
             required: true
         }
     },
@@ -167,7 +170,7 @@ $(saveButtonId).off('click').click(async (e) => {
     try {
         // Trigger form validation before submission
         if ($(formName).valid()) {
-            const formData = $(formName).serialize();
+            const formData = new FormData($(formName)[0]);
             const result = await SendRequest({ endpoint: endpointCreate, method: 'POST', data: formData });
             debugger;
             if (result.success && result.status === 201) {
@@ -200,6 +203,7 @@ window.updateSocialMediaLink = async (id) => {
             $('#Platform').val(result.data.platform);
             $('#LinkUrl').val(result.data.linkUrl);
             $('#IconUrl').val(result.data.iconUrl);
+            $('#FormFile').val(result.data.formFile);
             $('#DisplayOrder').val(result.data.displayOrder);
             $('#CompanyDropdown').val(result.data.companyId);
             $('#IsVisible').prop('checked', result.data.isVisible);
@@ -211,7 +215,7 @@ window.updateSocialMediaLink = async (id) => {
             $(updateButtonId).off('click').on('click', async (e) => {
                 e.preventDefault();
                 debugger
-                const formData = $(formName).serialize();
+                const formData = new FormData($(formName)[0]);
                 const result = await SendRequest({ endpoint: endpointUpdate + id, method: "PUT", data: formData });
                 if (result.success) {
                     notification({ message: `${controllerName} Updated successfully !`, type: "success", title: "Success" });

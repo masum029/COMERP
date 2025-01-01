@@ -66,6 +66,8 @@ const onSuccessEntities = async (entities) => {
                 phone: entity.phone,
                 address: entity.address,
                 website: entity.website,
+                logoUrl: entity.logo,
+                status: entity.isActive
                
             };
         }
@@ -76,12 +78,15 @@ const onSuccessEntities = async (entities) => {
 
     // Define the table schema
     const entitySchema = [
+        { data: null, title: 'Logo', render: (data, type, row) => `<img src="images/logo/${row?.logoUrl}" alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;" onerror="this.onerror=null;this.src='/ProjectRootImg/default-user.png';" />` },
         { data: null, title: 'Name', render: (data, type, row) => row.name || "Null" },
         { data: null, title: 'Email', render: (data, type, row) => row.email || "Null" },
         { data: null, title: 'Phone', render: (data, type, row) => row.phone || "Null" },
-        { data: null, title: 'Address', render: (data, type, row) => row.address || "Null" },
         { data: null, title: 'Website', render: (data, type, row) => row.website || "Null" },
-        { data: null, title: 'Description', render: (data, type, row) => row.des || "Null" },
+        {
+            data: null, title: 'Status', render: (data, type, row) => row.status ? '<span style="color: green; font-weight: bold;">Active</span>'
+                : '<span style="color: red; font-weight: bold;">Inactive</span>'
+        }, 
         { data: null, title: 'Date', render: (data, type, row) => row.date || "Null" },
         {
             data: null,
@@ -142,39 +147,7 @@ const InitializegetCompanyvalidation = $(formName).validate({
         }
     },
     messages: {
-        FirstName: {
-            required: "First Name is required.",
-            minlength: "First Name must be between 2 and 50 characters.",
-            maxlength: "First Name must be between 2 and 50 characters."
-        },
-        LastName: {
-            required: "Last Name is required.",
-            minlength: "Last Name must be between 2 and 50 characters.",
-            maxlength: "Last Name must be between 2 and 50 characters."
-        },
-        CompanyName: {
-            required: "Company Name is required.",
-            
-        },
-        Email: {
-            required: "Email is required.",
-            
-        },
-        Phone: {
-            required: "Phone Number is required."
-        },
-        Password: {
-            required: "Password is required.",
-            minlength: "Password must be at least 6 characters long.",
-           
-        },
-        ConfirmationPassword: {
-            required: "Confirmation Password is required.",
-            equalTo: "Password and Confirmation Password do not match."
-        },
-        RoleName: {
-            required: "You must select a role."
-        }
+       
     },
     errorElement: 'div',
     errorPlacement: function (error, element) {
@@ -217,7 +190,8 @@ $(saveButtonId).off('click').click(async (e) => {
     try {
         // Trigger form validation before submission
         if ($(formName).valid()) {
-            const formData = $(formName).serialize();
+            //const formData = $(formName).serialize();
+            const formData = new FormData($(formName)[0]);
             const result = await SendRequest({ endpoint: endpointCreate, method: 'POST', data: formData });
             debugger;
             if (result.success && result.status === 201) {
@@ -252,7 +226,9 @@ window.updateCompany = async (id) => {
             $('#ContactEmail').val(result.data.contactEmail);
             $('#Address').val(result.data.address);
             $('#Website').val(result.data.website);
+            $('#FormFile').val(result?.data?.formFile);
             $('#Phone').val(result.data.phone);
+            $('#isActive').prop('checked', result?.data?.isActive);
 
             const date = new Date(result.data.establishedDate);
             const defaultDate = new Date('1970-01-01');
@@ -270,7 +246,8 @@ window.updateCompany = async (id) => {
             $(updateButtonId).off('click').on('click', async (e) => {
                 e.preventDefault();
                 debugger
-                const formData = $(formName).serialize();
+                //const formData = $(formName).serialize();
+                const formData = new FormData($(formName)[0]);
                 const result = await SendRequest({ endpoint: endpointUpdate + id, method: "PUT", data: formData });
                 if (result.success) {
                     notification({ message: `${controllerName} Updated successfully !`, type: "success", title: "Success" });

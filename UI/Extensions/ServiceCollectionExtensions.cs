@@ -3,6 +3,7 @@ using System.Text;
 using UI.ApiSettings;
 using UI.Dtos;
 using UI.Models;
+using UI.Services.Implementations;
 using UI.Services.Implemettions;
 using UI.Services.Interface;
 
@@ -28,6 +29,8 @@ namespace UI.Extensions
             services.AddScoped<IFileUploader, FileUploader>();
             services.AddScoped<IFileHelper, FileHelper>();
             services.AddScoped<IUtilityHelper, UtilityHelper>();
+            services.AddScoped<ISessionServices, SessionServices>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 
             services.AddScoped<IClientServices<Register>, ClientServices<Register>>();
@@ -48,11 +51,11 @@ namespace UI.Extensions
             services.AddScoped<IClientServices<SiteSettings>, ClientServices<SiteSettings>>();
             services.AddScoped<IClientServices<Slider>, ClientServices<Slider>>();
             services.AddScoped<IClientServices<SocialMediaLink>, ClientServices<SocialMediaLink>>();
-
+           
 
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
+            services.AddControllersWithViews();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {

@@ -8,6 +8,7 @@
         public int DisplayOrder { get; set; }
         public bool IsVisible { get; set; } = true;
         public string CompanyId { get; set; }
+        public List<IFormFile>? FormFile { get; set; }
         public Company Company { get; set; }
     }
 }
