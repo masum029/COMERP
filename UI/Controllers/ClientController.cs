@@ -10,11 +10,12 @@ namespace UI.Controllers
     {
         private readonly IClientServices<Client> _clintServices;
         private readonly ApiUrlSettings _apiUrls;
-
-        public ClientController(IClientServices<Client> clintServices, IOptions<ApiUrlSettings> apiUrls)
+        private readonly IFileUploader _fileUploader;
+        public ClientController(IClientServices<Client> clintServices, IOptions<ApiUrlSettings> apiUrls, IFileUploader fileUploader)
         {
             _clintServices = clintServices;
             _apiUrls = apiUrls.Value;
+            _fileUploader = fileUploader;
         }
 
         public IActionResult Index()
@@ -25,7 +26,16 @@ namespace UI.Controllers
 
         public async Task<IActionResult> Create(Client model)
         {
+            if (model.FormFile != null && model.FormFile.Count > 0)
+            {
+                model.Icon = await _fileUploader.ImgUploader(model.FormFile[0], "Client_icom"); 
+            }
             var register = await _clintServices.PostClientAsync(_apiUrls._ClientUrl, model);
+            if (register.Success)
+            {
+                HttpContext.Session.Remove("OldCompanyName");
+            }
+
             return Json(register);
         }
         [HttpGet]
@@ -44,13 +54,46 @@ namespace UI.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(string id, Client model)
         {
+            var Client = await _clintServices.GetClientByIdAsync($"{_apiUrls._ClientUrl}/{id}");
+            if (model.FormFile != null && model.FormFile.Count > 0)
+            {
+                if (Client?.Data?.Icon != null)
+                {
+                    await _fileUploader.DeleteFile(Client?.Data?.Icon, "Client_icom");
+
+                }
+                model.Icon = await _fileUploader.ImgUploader(model.FormFile[0], "Client_icom");
+
+
+            }
+            else
+            {
+                model.Icon = Client?.Data?.Icon;
+
+            }
+
             var result = await _clintServices.UpdateClientAsync($"{_apiUrls._ClientUrl}/{id}", model);
+            if (result.Success)
+            {
+                HttpContext.Session.Remove("OldCompanyName");
+            }
+
             return Json(result);
         }
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
+            var Client = await _clintServices.GetClientByIdAsync($"{_apiUrls._ClientUrl}/{id}");
             var result = await _clintServices.DeleteClientAsync($"{_apiUrls._ClientUrl}/{id}");
+            if (result.Success)
+            {
+                if (Client?.Data?.Icon != null)
+                {
+                    await _fileUploader.DeleteFile(Client?.Data?.Icon, "Client_icom");
+                }
+
+            }
+
             return Json(result);
         }
     }

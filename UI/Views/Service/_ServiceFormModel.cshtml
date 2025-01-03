@@ -25,20 +25,13 @@
             </div>
             <div class="modal-body">
                 <form id=@FromID class="row g-3">
-                    <div class="col-md-6 note">
+                    <div class="col-md-4 note">
                         <label asp-for="Name" class="form-label">
                             Name
                             <span class="text-danger font-weight-bold">*</span>
                         </label>
                         <input type="text" asp-for="Name" class="form-control" id="Name">
                         <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-6">
-                        <label asp-for="Description" class="form-label">
-                            Description
-                        </label>
-                        <input type="text" asp-for="Description" class="form-control" id="Description">
-                        <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label asp-for="DurationHours" class="form-label">
@@ -55,7 +48,35 @@
                         <input type="number" asp-for="Price" class="form-control" id="Price">
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
-                    <div class="col-md-4">
+    
+
+                    <div class="col-md-12">
+                        <label asp-for="Description" class="form-label">
+                            Description
+                        </label>
+                        <textarea asp-for="Description" type="text" class="form-control" placeholder="Description" id="Description" style="height: 100px;"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label asp-for="Icon" class="form-label">
+                            Icon Name
+                            <span class="text-danger font-weight-bold">*</span>
+                        </label>
+                        <div class="d-flex align-items-center">
+                            <!-- Icon Preview -->
+                            <div id="iconPreview" class="me-2" style="font-size: 24px;"></div>
+                            <!-- Icon Input Field -->
+                            <input type="text" asp-for="Icon" class="form-control" id="Icon" placeholder="e.g., bi bi-briefcase">
+                        </div>
+                        <span asp-validation-for="Icon" class="text-danger"></span>
+                        <small class="form-text text-muted">
+                            Enter the Bootstrap icon class name. For available icons, visit
+                            <a href="https://icons.getbootstrap.com/" target="_blank">Bootstrap Icons</a>.
+                        </small>
+                    </div>
+
+                    
+                    <div class="col-md-9">
                         <label asp-for="CompanyId" class="form-label">
                             Company
                             <span class="text-danger font-weight-bold">*</span>
@@ -76,3 +97,4 @@
         </div>
     </div>
 </div><!-- End Large Modal-->
+

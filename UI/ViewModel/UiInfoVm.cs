@@ -6,5 +6,8 @@ namespace UI.ViewModel
     {
         public Company Company { get; set; } = new Company();
         public IEnumerable<SocialMediaLink> SocialLink { get; set; }  =  new List<SocialMediaLink>();
+        public IEnumerable<Slider> Sliders { get; set; }  =  new List<Slider>();
+        public IEnumerable<Client> Clients { get; set; }  =  new List<Client>();
+        public IEnumerable<Service> Services { get; set; }  =  new List<Service>();
     }
 }

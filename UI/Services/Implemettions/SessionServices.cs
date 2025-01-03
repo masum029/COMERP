@@ -13,16 +13,28 @@ namespace UI.Services.Implementations
         private readonly ApiUrlSettings _apiUrls;
         private readonly IClientServices<Company> _clientServices;
         private readonly IClientServices<SocialMediaLink> _socilServices;
+        private readonly IClientServices<Slider> _sliderServices;
+        private readonly IClientServices<Client> _clientsServices;
+        private readonly IClientServices<Service> _serviceServices;
 
         private const string CompanyInfoKey = "CompanyInfo";
         private const string OldCompanyNameKey = "OldCompanyName";
 
-        public SessionServices(IHttpContextAccessor httpContextAccessor, IOptions<ApiUrlSettings> apiUrls, IClientServices<Company> clientServices, IClientServices<SocialMediaLink> clintServices)
+        public SessionServices(IHttpContextAccessor httpContextAccessor,
+            IOptions<ApiUrlSettings> apiUrls,
+            IClientServices<Company> clientServices,
+            IClientServices<SocialMediaLink> clintServices,
+            IClientServices<Slider> sliderServices,
+            IClientServices<Client> clientsServices,
+            IClientServices<Service> serviceServices)
         {
             _httpContextAccessor = httpContextAccessor;
             _apiUrls = apiUrls.Value;
             _clientServices = clientServices;
             _socilServices = clintServices;
+            _sliderServices = sliderServices;
+            _clientsServices = clientsServices;
+            _serviceServices = serviceServices;
         }
 
         /// <summary>
@@ -81,14 +93,37 @@ namespace UI.Services.Implementations
 
             var companyResponse = await _clientServices.GetAllClientsAsync(_apiUrls._CompanyUrl);
             var activeCompany = companyResponse?.Data?.FirstOrDefault(c => c.isActive);
+
             var SocialMedia = await _socilServices.GetAllClientsAsync(_apiUrls._SocialMediaLinkUrl);
-            var filterSocialMedia = SocialMedia?.Data?.Where(s=>s.IsVisible);
+            var filterSocialMedia = SocialMedia?.Data?
+                .Where(s=>s.IsVisible && s.CompanyId == activeCompany?.Id)
+                .OrderBy(s=>s.DisplayOrder)
+                .ToList();
+
+            var Slayders = await _sliderServices.GetAllClientsAsync(_apiUrls._SliderUrl);
+            var slayderList = Slayders?.Data?
+                .Where(sli => sli.IsActive && sli.CompanyId == activeCompany?.Id)
+                .OrderBy(sli => sli.DisplayOrder)
+                .ToList();
+
+            var Clients = await _clientsServices.GetAllClientsAsync(_apiUrls._ClientUrl);
+            var ClientsList = Clients?.Data?
+                .Where(cli => cli.isActive && cli.CompanyId == activeCompany?.Id)
+                .ToList();
+            var Services = await _serviceServices.GetAllClientsAsync(_apiUrls._ServiceUrl);
+            var ServicesList = Services?.Data?
+                .Where(srv => srv.CompanyId == activeCompany?.Id)
+                .ToList();
+
             if (activeCompany != null)
             {
                 var uiInfoVm = new UiInfoVm
                 {
                     Company = activeCompany,
-                    SocialLink = filterSocialMedia
+                    SocialLink = filterSocialMedia,
+                    Sliders= slayderList,
+                    Clients= ClientsList,
+                    Services= ServicesList,
                 };
 
                 session.SetString(CompanyInfoKey, JsonConvert.SerializeObject(uiInfoVm));

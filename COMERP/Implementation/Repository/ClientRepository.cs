@@ -28,8 +28,8 @@ namespace COMERP.Implementation.Repository
         public async Task<(bool Success, string id, string Message)> AddClientSqlAsync(ClientDto model)
         {
             const string sql = @"
-                    INSERT INTO Clients (Id, Name, ContactPerson, Email, Phone, Address, CompanyId, CreationDate, CreatedBy)
-                    VALUES (@Id, @Name, @ContactPerson, @Email, @Phone, @Address, @CompanyId, @CreationDate, @CreatedBy);
+                    INSERT INTO Clients (Id, Name, ContactPerson, Email, Phone,Icon,isActive, Address, CompanyId, CreationDate, CreatedBy)
+                    VALUES (@Id, @Name, @ContactPerson, @Email, @Phone,@Icon,@isActive, @Address, @CompanyId, @CreationDate, @CreatedBy);
                     SELECT CAST(SCOPE_IDENTITY() AS varchar);";
 
 
@@ -53,6 +53,8 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@Email", model.Email);
                         parameters.Add("@Phone", model.Phone);
                         parameters.Add("@Address", model.Address);
+                        parameters.Add("@Icon", model.Icon);
+                        parameters.Add("@isActive", model.isActive);
                         parameters.Add("@CompanyId", model.CompanyId);
                         parameters.Add("@CreationDate", DateTime.UtcNow);
                         parameters.Add("@CreatedBy", GetUserName());
@@ -83,6 +85,8 @@ namespace COMERP.Implementation.Repository
                         ContactPerson = @ContactPerson,
                         Email = @Email,
                         Phone = @Phone,
+                        Icon = @Icon,
+                        isActive = @isActive,
                         Address = @Address,
                         CompanyId = @CompanyId,
                         UpdateDate = @UpdatedDate,
@@ -105,6 +109,8 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@Email", model.Email);
                         parameters.Add("@Phone", model.Phone);
                         parameters.Add("@Address", model.Address);
+                        parameters.Add("@Icon", model.Icon);
+                        parameters.Add("@isActive", model.isActive);
                         parameters.Add("@CompanyId", model.CompanyId);
                         parameters.Add("@UpdatedDate", DateTime.UtcNow);
                         parameters.Add("@UpdatedBy", GetUserName()); // Retrieve the username of the logged-in user
@@ -137,7 +143,7 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
                 SELECT 
-                    c.Id, c.Name, c.ContactPerson, c.Email, c.Phone, c.Address, c.CompanyId, 
+                    c.Id, c.Name, c.ContactPerson, c.Email,c.Icon,c.isActive, c.Phone, c.Address, c.CompanyId, 
                     c.CreationDate, c.CreatedBy, c.UpdateDate, c.UpdatedBy,
                     co.Id, co.Name, co.Description, co.EstablishedDate, co.ContactEmail, co.Phone ,
                     co.Address, co.Website, co.CreationDate ,co.CreationDate, co.CreatedBy, co.UpdateDate, co.UpdatedBy
@@ -173,7 +179,7 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
                     SELECT 
-                        c.Id, c.Name, c.ContactPerson, c.Email, c.Phone, c.Address, c.CompanyId, 
+                        c.Id, c.Name, c.ContactPerson, c.Email, c.Phone, c.Address,c.Icon,c.isActive,c.CompanyId, 
                         c.CreationDate, c.CreatedBy, c.UpdateDate, c.UpdatedBy,
                         co.Id, co.Name, co.Description, co.EstablishedDate, co.ContactEmail, co.Phone ,
                         co.Address , co.Website, co.CreationDate ,

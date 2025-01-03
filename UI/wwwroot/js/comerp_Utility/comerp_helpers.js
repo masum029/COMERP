@@ -10,7 +10,7 @@ export const loger = (message) => {
 // */
 //export const initializeDataTable = async (data, schema, tableId) => {
 //    try {
-//        debugger
+//        
 //        if (!Array.isArray(data) || !Array.isArray(schema) || typeof tableId !== 'string') {
 //            throw new Error('Invalid arguments passed to initializeGenericDataTable');
 //        }
@@ -206,7 +206,7 @@ export const displayNotification = ({
         onError();
         return;
     }
-    debugger
+
     // Hide the modal
     $(modalId).modal('hide');
 
@@ -237,7 +237,7 @@ export const initializevalidation = (formselector, rules, messages) => {
             $(element).removeclass('is-invalid');
         }
     });
-    debugger
+
     // bind validation on change and focus events
     $(formselector + ' input[type="text"]').on('change focus', function () {
         validator.element($(this));
@@ -255,7 +255,7 @@ export const resetValidation = (validator, formSelector) => {
 
 
 export const dataToMap = (data, key) => {
-    debugger
+    
     return data.reduce((map, item) => {
         map[item[key]] = item;
         return map;
@@ -289,12 +289,7 @@ export const hideLoader = () => {
 };
 
 
-/**
-    * Sets a date field with a formatted date value or clears it if the value is invalid or default.
-    *
-    * @param {string} fieldId - The selector for the field (e.g., '#StartDate').
-    * @param {string|Date} dateValue - The date value to be processed (in string or Date format).
-    */
+
 export const setDateField = (fieldId, dateValue) => {
     const parsedDate = new Date(dateValue);
     const defaultDate = new Date('1970-01-01');

@@ -10,6 +10,7 @@
         public bool IsActive { get; set; } = true;
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public string CompanyId { get; set; }
+        public List<IFormFile>? FormFile { get; set; }
         public Company Company { get; set; }
     }
 }

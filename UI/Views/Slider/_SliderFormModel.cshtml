@@ -25,7 +25,7 @@
             </div>
             <div class="modal-body">
                 <form id=@FromID class="row g-3">
-                    <div class="col-md-6 note">
+                    <div class="col-md-12 note">
                         <label asp-for="Title" class="form-label">
                             Title
                             <span class="text-danger font-weight-bold">*</span>
@@ -33,28 +33,23 @@
                         <input type="text" asp-for="Title" class="form-control" id="Title">
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
-                    <div class="col-md-6 note">
+                    <div class="col-md-12">
                         <label asp-for="Subtitle" class="form-label">
                             Subtitle
                         </label>
-                        <input type="text" asp-for="Subtitle" class="form-control" id="Subtitle">
+                        <textarea asp-for="Subtitle" type="text" class="form-control" placeholder="Sub title" id="Subtitle" style="height: 100px;"></textarea>
                         <span asp-validation-for="Subtitle" class="text-danger"></span>
                     </div>
 
-                    <div class="col-md-6">
-                        <label asp-for="ImageUrl" class="form-label">
+                    <div class="col-md-4">
+                        <label asp-for="FormFile" class="form-label">
                             Image
                         </label>
-                        <input type="text" asp-for="ImageUrl" class="form-control" id="ImageUrl">
-                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        <input asp-for="FormFile" class="form-control" id="FormFile">
+                        <span asp-validation-for="FormFile" class="text-danger"></span>
                     </div>
-                    <div class="col-md-6">
-                        <label asp-for="LinkUrl" class="form-label">
-                            Link
-                        </label>
-                        <input type="text" asp-for="LinkUrl" class="form-control" id="LinkUrl">
-                        <span asp-validation-for="LinkUrl" class="text-danger"></span>
-                    </div>
+
+                   
                     <div class="col-md-4">
                         <label asp-for="DisplayOrder" class="form-label">
                             Display Order
@@ -70,7 +65,14 @@
                         <input type="date" asp-for="CreatedDate" class="form-control" id="CreatedDate">
                         <span asp-validation-for="CreatedDate" class="text-danger"></span>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
+                        <label asp-for="LinkUrl" class="form-label">
+                            Link
+                        </label>
+                        <input type="text" asp-for="LinkUrl" class="form-control" id="LinkUrl">
+                        <span asp-validation-for="LinkUrl" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
                         <label asp-for="CompanyId" class="form-label">
                             Company
                             <span class="text-danger font-weight-bold">*</span>

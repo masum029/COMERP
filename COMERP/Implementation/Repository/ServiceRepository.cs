@@ -29,9 +29,9 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         INSERT INTO Services 
-        (Id, Name, Description, Price, DurationHours, CompanyId, CreationDate, CreatedBy)
+        (Id, Name, Description, Price, DurationHours,Icon, CompanyId, CreationDate, CreatedBy)
         VALUES 
-        (@Id, @Name, @Description, @Price, @DurationHours, @CompanyId, @CreationDate, @CreatedBy);";
+        (@Id, @Name, @Description, @Price, @DurationHours,@Icon, @CompanyId, @CreationDate, @CreatedBy);";
 
             using (var connection = _dapperDbContext.CreateConnection())
             {
@@ -48,6 +48,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@Description", model.Description);
                         parameters.Add("@Price", model.Price);
                         parameters.Add("@DurationHours", model.DurationHours);
+                        parameters.Add("@Icon", model.Icon);
                         parameters.Add("@CompanyId", model.CompanyId);
                         parameters.Add("@CreationDate", DateTime.UtcNow);
                         parameters.Add("@CreatedBy", GetUserName());
@@ -75,6 +76,7 @@ namespace COMERP.Implementation.Repository
             Description = @Description,
             Price = @Price,
             DurationHours = @DurationHours,
+            Icon = @Icon,
             CompanyId = @CompanyId,
             UpdateDate = @UpdateDate,
             UpdatedBy = @UpdatedBy
@@ -93,6 +95,7 @@ namespace COMERP.Implementation.Repository
                         parameters.Add("@Description", model.Description);
                         parameters.Add("@Price", model.Price);
                         parameters.Add("@DurationHours", model.DurationHours);
+                        parameters.Add("@Icon", model.Icon);
                         parameters.Add("@CompanyId", model.CompanyId);
                         parameters.Add("@UpdateDate", DateTime.UtcNow);
                         parameters.Add("@UpdatedBy", GetUserName());
@@ -121,7 +124,7 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         SELECT 
-            s.Id, s.Name, s.Description, s.Price, s.DurationHours, s.CompanyId,
+            s.Id, s.Name, s.Description, s.Price,s.Icon, s.DurationHours, s.CompanyId,
             c.Id, c.Name, c.Description, c.EstablishedDate, c.ContactEmail, c.Phone, c.Address, c.Website
         FROM Services s
         INNER JOIN Companys c ON s.CompanyId = c.Id;";
@@ -154,7 +157,7 @@ namespace COMERP.Implementation.Repository
         {
             const string sql = @"
         SELECT 
-            s.Id, s.Name, s.Description, s.Price, s.DurationHours, s.CompanyId, 
+            s.Id, s.Name, s.Description, s.Price,s.Icon, s.DurationHours, s.CompanyId, 
             c.Id, c.Name, c.Description, c.EstablishedDate, c.ContactEmail, c.Phone, c.Address, c.Website
         FROM Services s
         INNER JOIN Companys c ON s.CompanyId = c.Id

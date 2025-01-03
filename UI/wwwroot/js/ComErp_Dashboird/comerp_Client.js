@@ -40,7 +40,7 @@ const getClientList = async () => {
             await onSuccessEntities(result.data);
             debugger;
         } else {
-            notificationErrors({ message: result.message, title: `Error: Failed to retrieve ${controllerName} list` });
+            notificationErrors({ message: result.message + result.detail, title: `Error: Failed to retrieve ${controllerName} list` });
         }
     } catch (error) {
         notificationErrors({ message: error, title: `Error: Failed to retrieve ${controllerName} list` });
@@ -65,6 +65,8 @@ const onSuccessEntities = async (entities) => {
                 phone: entity.phone,
                 address: entity.address,
                 contactParson: entity.contactPerson,
+                icon: entity.icon,
+                status: entity.isActive
 
             };
         }
@@ -75,11 +77,16 @@ const onSuccessEntities = async (entities) => {
 
     // Define the table schema
     const entitySchema = [
+        { data: null, title: 'Icon', render: (data, type, row) => `<img src="images/Client_icom/${row?.icon}" alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;" onerror="this.onerror=null;this.src='/ProjectRootImg/default-user.png';" />` },
         { data: null, title: 'Name', render: (data, type, row) => row.name || "Null" },
         { data: null, title: 'Email', render: (data, type, row) => row.email || "Null" },
         { data: null, title: 'Phone', render: (data, type, row) => row.phone || "Null" },
         { data: null, title: 'Address', render: (data, type, row) => row.address || "Null" },
         { data: null, title: 'Contact Person', render: (data, type, row) => row.contactParson || "Null" },
+        {
+            data: null, title: 'Status', render: (data, type, row) => row.status ? '<span style="color: green; font-weight: bold;">Active</span>'
+                : '<span style="color: red; font-weight: bold;">Inactive</span>'
+        }, 
         { data: null, title: 'Company', render: (data, type, row) => row.company || "Null" },
         {
             data: null,
@@ -215,7 +222,7 @@ $(saveButtonId).off('click').click(async (e) => {
     try {
         // Trigger form validation before submission
         if ($(formName).valid()) {
-            const formData = $(formName).serialize();
+            const formData = new FormData($(formName)[0]);
             const result = await SendRequest({ endpoint: endpointCreate, method: 'POST', data: formData });
             debugger;
             if (result.success && result.status === 201) {
@@ -251,13 +258,16 @@ window.updateClient = async (id) => {
             $('#Address').val(result.data.address);
             $('#CompanyDropdown').val(result.data.companyId);
             $('#Phone').val(result.data.phone);
+            $('#Icon').val(result.data.icon);
+            $('#isActive').prop('checked', result?.data?.isActive);
+            $('#FormFile').val(result.data.FormFile);
 
             $(modalCreateId).modal('show');
             resetValidation(InitializegetClientvalidation, formName);
             $(updateButtonId).off('click').on('click', async (e) => {
                 e.preventDefault();
                 debugger
-                const formData = $(formName).serialize();
+                const formData = new FormData($(formName)[0]);
                 const result = await SendRequest({ endpoint: endpointUpdate + id, method: "PUT", data: formData });
                 if (result.success) {
                     notification({ message: `${controllerName} Updated successfully !`, type: "success", title: "Success" });

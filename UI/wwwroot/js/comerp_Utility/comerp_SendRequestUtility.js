@@ -85,7 +85,7 @@ export const SendRequest = async ({ endpoint, method = 'GET', data = null, heade
     // Validate and set default method
     const validMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
     method = validMethods.includes(method.toUpperCase()) ? method.toUpperCase() : 'GET';
-    debugger
+    
     // Validate and set default data type
     const validDataTypes = ['json', 'text', 'html', 'xml', 'script'];
     dataType = validDataTypes.includes(dataType) ? dataType : 'json';
@@ -148,7 +148,7 @@ export const SendRequest = async ({ endpoint, method = 'GET', data = null, heade
  
     
     try {
-        debugger
+        
         const response = await fetch(endpoint, options);
         const result = dataType === 'json' ? await response.json() : await response.text();
         
@@ -170,7 +170,7 @@ export function handleError(message) {
 export const populateDropdown = async (endpoint, dropdownSelector, valueField, textField, defaultOption = null) => {
    
     try {
-        debugger
+        
         const response = await SendRequest({ endpoint: endpoint });
         let data = response;
         

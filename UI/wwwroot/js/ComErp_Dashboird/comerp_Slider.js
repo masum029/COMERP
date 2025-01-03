@@ -61,7 +61,7 @@ const onSuccessEntities = async (entities) => {
                 id: entity?.id,
                 company: entity.company.name,
                 title: entity.title,
-                subtitle: entity.subtitle,
+                subtitle: entity.subtitle.slice(0, 10),
                 imageUrl: entity.imageUrl,
                 linkUrl: entity.linkUrl,
                 displayOrder: entity.displayOrder,
@@ -76,9 +76,9 @@ const onSuccessEntities = async (entities) => {
 
     // Define the table schema
     const entitySchema = [
+        { data: null, title: 'Image', render: (data, type, row) => `<img src="images/Slider/${row?.imageUrl}" alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;" onerror="this.onerror=null;this.src='/ProjectRootImg/default-user.png';" />` },
         { data: null, title: 'Title', render: (data, type, row) => row.title || "Null" },
         { data: null, title: 'Sub title', render: (data, type, row) => row.subtitle || "Null" },
-        { data: null, title: 'Image', render: (data, type, row) => row.imageUrl || "Null" },
         { data: null, title: 'Link', render: (data, type, row) => row.linkUrl || "Null" },
         { data: null, title: 'Display Order', render: (data, type, row) => row.displayOrder || "Null" },
         {
@@ -170,7 +170,7 @@ $(saveButtonId).off('click').click(async (e) => {
     try {
         // Trigger form validation before submission
         if ($(formName).valid()) {
-            const formData = $(formName).serialize();
+            const formData = new FormData($(formName)[0]);
             const result = await SendRequest({ endpoint: endpointCreate, method: 'POST', data: formData });
             debugger;
             if (result.success && result.status === 201) {
@@ -204,6 +204,7 @@ window.updateSlider = async (id) => {
             $('#Title').val(result.data.title);
             $('#Subtitle').val(result.data.subtitle);
             $('#ImageUrl').val(result.data.imageUrl);
+            $('#FormFile').val(result.data.formFile);
             $('#LinkUrl').val(result.data.linkUrl);
             $('#DisplayOrder').val(result.data.displayOrder);
             $('#IsActive').prop('checked', result.data.isActive);
@@ -224,7 +225,7 @@ window.updateSlider = async (id) => {
             $(updateButtonId).off('click').on('click', async (e) => {
                 e.preventDefault();
                 debugger
-                const formData = $(formName).serialize();
+                const formData = new FormData($(formName)[0]);
                 const result = await SendRequest({ endpoint: endpointUpdate + id, method: "PUT", data: formData });
                 if (result.success) {
                     notification({ message: `${controllerName} Updated successfully !`, type: "success", title: "Success" });

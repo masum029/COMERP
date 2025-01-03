@@ -23,6 +23,7 @@ $(document).ready(async function () {
     debugger
     await initGitAllList();
     await CreateServiceBtn(createButton);
+
 });
 const initGitAllList = async () => {
     await getServiceList();
@@ -61,7 +62,7 @@ const onSuccessEntities = async (entities) => {
                 id: entity?.id,
                 company: entity.company.name,
                 name: entity.name,
-                description: entity.description,
+                description: entity.description.slice(0, 20),
                 price: entity.price ,
                 DurationHours: entity.durationHours,
             };
@@ -74,7 +75,7 @@ const onSuccessEntities = async (entities) => {
     // Define the table schema
     const entitySchema = [
         { data: null, title: 'Name', render: (data, type, row) => row.name || "Null" },
-        { data: null, title: 'Description', render: (data, type, row) => row.description || "Null" },
+        { data: null, title: 'Description', render: (data, type, row) => row.description + "..." || "Null" },
         { data: null, title: 'Price', render: (data, type, row) => row.price || "Null" },
         { data: null, title: 'Company', render: (data, type, row) => row.company || "Null" },
         {
@@ -246,6 +247,7 @@ window.updateService = async (id) => {
             $('#Description').val(result.data.description);
             $('#Price').val(result.data.price);
             $('#DurationHours').val(result.data.durationHours);
+            $('#Icon').val(result.data.icon);
             
 
 

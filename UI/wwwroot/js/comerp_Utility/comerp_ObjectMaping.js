@@ -5,7 +5,7 @@ $(document).ready(async function () {
     initializeAutocomplete();
 });
 export const mapUserToEmployee = async (user) => {
-    debugger
+    
     const newEmployee = {
         Id: user.id,
         IsEmp:true,
@@ -33,7 +33,7 @@ export const mapUserToEmployee = async (user) => {
 };
 
 export const mapUserToCustomer = async (user) => {
-    debugger;
+    ;
     const newCustomer = {
         CustomerName: `${user.firstName} ${user.lastName}`, // Combine first and last name
         ContactName: " No Data", // Placeholder or set based on your logic
@@ -54,21 +54,21 @@ export const mapUserToCustomer = async (user) => {
     return newCustomer;
 };
 export const mackEmployee = async (id) => {
-    debugger
+    
     const users = await SendRequest({ endpoint: '/DashboardUser/GetById/' + id });
     if (users.success) {
         const newEmployee = await mapUserToEmployee(users.data);
         const employee = await SendRequest({ endpoint: '/Employee/Create', method: 'POST', data: newEmployee });
 
         if (employee.success) {
-            debugger
+            
             const updatedUserData = {
                 ...users.data,
                 isApprovedByAdmin: true,
                 isEmployee: false,
                 roleName: users.data.roles && users.data.roles.length > 0 ? users.data.roles[0] : null,
             };
-            debugger
+            
             const updateUser = await SendRequest({ endpoint: '/DashboardUser/Update/' + id, method: "PUT", data: updatedUserData });
             if (updateUser.success) {
                 
@@ -91,7 +91,7 @@ export const mackEmployee = async (id) => {
 
 
 export const mackCustomer = async (id) => {
-    debugger
+    
     const users = await SendRequest({ endpoint: '/DashboardUser/GetById/' + id });
     if (users.success) {
         const newCustomer = await mapUserToCustomer(users.data);
