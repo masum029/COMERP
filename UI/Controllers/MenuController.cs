@@ -26,6 +26,10 @@ namespace UI.Controllers
         public async Task<IActionResult> Create(Menu model)
         {
             var register = await _clintServices.PostClientAsync(_apiUrls._MenuUrl, model);
+            if (register.Success)
+            {
+                HttpContext.Session.Remove("OldCompanyName");
+            }
             return Json(register);
         }
         [HttpGet]
@@ -45,6 +49,11 @@ namespace UI.Controllers
         public async Task<IActionResult> Update(string id, Menu model)
         {
             var result = await _clintServices.UpdateClientAsync($"{_apiUrls._MenuUrl}/{id}", model);
+            if (result.Success)
+            {
+                HttpContext.Session.Remove("OldCompanyName");
+            }
+
             return Json(result);
         }
         [HttpDelete]

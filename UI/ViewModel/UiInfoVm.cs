@@ -9,5 +9,8 @@ namespace UI.ViewModel
         public IEnumerable<Slider> Sliders { get; set; }  =  new List<Slider>();
         public IEnumerable<Client> Clients { get; set; }  =  new List<Client>();
         public IEnumerable<Service> Services { get; set; }  =  new List<Service>();
+        public IEnumerable<FooterLink> FooterLinks { get; set; }  =  new List<FooterLink>();
+        public IEnumerable<Menu> Menus { get; set; }  =  new List<Menu>();
+        public About Abouts { get; set; }  =  new About();
     }
 }

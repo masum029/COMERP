@@ -26,6 +26,11 @@ namespace UI.Controllers
         public async Task<IActionResult> Create(FooterLink model)
         {
             var register = await _clintServices.PostClientAsync(_apiUrls._FooterLinkUrl, model);
+            if (register.Success)
+            {
+                HttpContext.Session.Remove("OldCompanyName");
+            }
+
             return Json(register);
         }
         [HttpGet]
@@ -45,6 +50,11 @@ namespace UI.Controllers
         public async Task<IActionResult> Update(string id, FooterLink model)
         {
             var result = await _clintServices.UpdateClientAsync($"{_apiUrls._FooterLinkUrl}/{id}", model);
+            if (result.Success)
+            {
+                HttpContext.Session.Remove("OldCompanyName");
+            }
+
             return Json(result);
         }
         [HttpDelete]

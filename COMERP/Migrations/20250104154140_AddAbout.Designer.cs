@@ -4,6 +4,7 @@ using COMERP.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace COMERP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250104154140_AddAbout")]
+    partial class AddAbout
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,9 +42,6 @@ namespace COMERP.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Img")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsVisible")
@@ -85,7 +85,6 @@ namespace COMERP.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SubAboutId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
@@ -876,7 +875,6 @@ namespace COMERP.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AboutId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedBy")
@@ -1020,21 +1018,16 @@ namespace COMERP.Migrations
                 {
                     b.HasOne("COMERP.Entities.Company", "Company")
                         .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("CompanyId");
 
                     b.Navigation("Company");
                 });
 
             modelBuilder.Entity("COMERP.Entities.AboutTopic", b =>
                 {
-                    b.HasOne("COMERP.Entities.SubAbout", "SubAbout")
+                    b.HasOne("COMERP.Entities.SubAbout", null)
                         .WithMany("AboutTopics")
-                        .HasForeignKey("SubAboutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SubAbout");
+                        .HasForeignKey("SubAboutId");
                 });
 
             modelBuilder.Entity("COMERP.Entities.Client", b =>
@@ -1188,13 +1181,9 @@ namespace COMERP.Migrations
 
             modelBuilder.Entity("COMERP.Entities.SubAbout", b =>
                 {
-                    b.HasOne("COMERP.Entities.About", "About")
+                    b.HasOne("COMERP.Entities.About", null)
                         .WithMany("SubAbouts")
-                        .HasForeignKey("AboutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("About");
+                        .HasForeignKey("AboutId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

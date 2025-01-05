@@ -16,6 +16,9 @@ namespace UI.Services.Implementations
         private readonly IClientServices<Slider> _sliderServices;
         private readonly IClientServices<Client> _clientsServices;
         private readonly IClientServices<Service> _serviceServices;
+        private readonly IClientServices<FooterLink> _footerLinkServices;
+        private readonly IClientServices<Menu> _menuServices;
+        private readonly IClientServices<About> _AboutServices;
 
         private const string CompanyInfoKey = "CompanyInfo";
         private const string OldCompanyNameKey = "OldCompanyName";
@@ -26,7 +29,10 @@ namespace UI.Services.Implementations
             IClientServices<SocialMediaLink> clintServices,
             IClientServices<Slider> sliderServices,
             IClientServices<Client> clientsServices,
-            IClientServices<Service> serviceServices)
+            IClientServices<Service> serviceServices,
+            IClientServices<FooterLink> footerLinkServices,
+            IClientServices<Menu> menuServices,
+            IClientServices<About> aboutServices)
         {
             _httpContextAccessor = httpContextAccessor;
             _apiUrls = apiUrls.Value;
@@ -35,6 +41,9 @@ namespace UI.Services.Implementations
             _sliderServices = sliderServices;
             _clientsServices = clientsServices;
             _serviceServices = serviceServices;
+            _footerLinkServices = footerLinkServices;
+            _menuServices = menuServices;
+            _AboutServices = aboutServices;
         }
 
         /// <summary>
@@ -75,7 +84,6 @@ namespace UI.Services.Implementations
                 // Re-fetch the updated data from the session
                 companyJson = session.GetString(CompanyInfoKey);
             }
-
             return string.IsNullOrEmpty(companyJson)
                 ? null
                 : JsonConvert.DeserializeObject<UiInfoVm>(companyJson);
@@ -115,6 +123,21 @@ namespace UI.Services.Implementations
                 .Where(srv => srv.CompanyId == activeCompany?.Id)
                 .ToList();
 
+            var FooterLinks = await _footerLinkServices.GetAllClientsAsync(_apiUrls._FooterLinkUrl);
+            var FooterLinksList = FooterLinks?.Data?
+                 .Where(fl => fl.IsVisible && fl.CompanyId == activeCompany?.Id)
+                .OrderBy(fl => fl.DisplayOrder)
+                .ToList();
+            var Menus = await _menuServices.GetAllClientsAsync(_apiUrls._MenuUrl);
+            var MenusList = Menus?.Data?
+                 .Where(m => m.IsVisible && m.CompanyId == activeCompany?.Id)
+                .OrderBy(m => m.DisplayOrder)
+                .ToList();
+
+            var about = await _AboutServices.GetAllClientsAsync(_apiUrls._AboutUrl);
+            var aboutList = about?.Data?
+                 .FirstOrDefault(ab => ab.IsVisible);
+
             if (activeCompany != null)
             {
                 var uiInfoVm = new UiInfoVm
@@ -124,6 +147,9 @@ namespace UI.Services.Implementations
                     Sliders= slayderList,
                     Clients= ClientsList,
                     Services= ServicesList,
+                    FooterLinks= FooterLinksList,
+                    Menus= MenusList,
+                    Abouts = aboutList
                 };
 
                 session.SetString(CompanyInfoKey, JsonConvert.SerializeObject(uiInfoVm));

@@ -16,6 +16,7 @@
         ISiteSettingsRepository siteSettingsRepository { get; }
         ISliderRepository sliderRepository { get; }
         ISocialMediaLinkRepository socialMediaLinkRepository { get; }
+        IAboutRepository aboutRepository { get; }
         Task SaveAsync();
     }
 }

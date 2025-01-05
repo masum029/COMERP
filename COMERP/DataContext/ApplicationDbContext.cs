@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 
 namespace COMERP.DataContext
@@ -23,12 +24,34 @@ namespace COMERP.DataContext
         public DbSet<SiteSettings> SiteSettingss { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<SocialMediaLink> SocialMediaLinks { get; set; }
+        public DbSet<About> Abouts { get; set; }
+        public DbSet<SubAbout> SubAbouts { get; set; }
+        public DbSet<AboutTopic> AboutTopics { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             builder.Entity<IdentityUserLogin<string>>().HasKey(l => new { l.LoginProvider, l.ProviderKey });
+            // About -> SubAbout (One-to-Many)
+            builder.Entity<About>()
+                .HasMany(a => a.SubAbouts)
+                .WithOne(sa => sa.About)
+                .HasForeignKey(sa => sa.AboutId)
+                .OnDelete(DeleteBehavior.Cascade); 
 
+            // SubAbout -> AboutTopic (One-to-Many)
+            builder.Entity<SubAbout>()
+                .HasMany(sa => sa.AboutTopics)
+                .WithOne(at => at.SubAbout)
+                .HasForeignKey(at => at.SubAboutId)
+                .OnDelete(DeleteBehavior.Cascade); 
+
+            // About -> Company (Many-to-One)
+            builder.Entity<About>()
+                .HasOne(a => a.Company)
+                .WithMany()
+                .HasForeignKey(a => a.CompanyId)
+                .OnDelete(DeleteBehavior.SetNull); 
         }
     }
 }

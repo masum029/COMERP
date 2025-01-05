@@ -46,19 +46,68 @@
             </a>
             <nav id="navmenu" class="navmenu">
                 <ul>
-                    <li><a asp-controller="Home" asp-action="Index" class="active">Home</a></li>
-                    <li class="dropdown">
-                        <a asp-controller="About" asp-action="Index"><span>About</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                        <ul>
-                            <li><a asp-controller="Team" asp-action="Index">Team</a></li>
-                            <li><a asp-controller="Testimonials" asp-action="Index">Testimonials</a></li>
-                        </ul>
-                    </li>
-                    <li><a asp-controller="Services" asp-action="Index">Services</a></li>
-                    <li><a asp-controller="Portfolio" asp-action="Index">Portfolio</a></li>
-                    <li><a asp-controller="Pricing" asp-action="Index">Pricing</a></li>
-                    <li><a asp-controller="Blog" asp-action="Index">Blog</a></li>
-                    <li><a asp-controller="Contact" asp-action="Index">Contact</a></li>
+                    @{
+                        if (company?.Menus != null)
+                        {
+                            foreach (var menu in company?.Menus.Where(m => m.ParentMenuId == null))
+                            {
+                                // Get the submenus for the current menu
+                                var submenus = company?.Menus?.Where(sub => sub.ParentMenuId == menu.Id).ToList();
+
+                                if (submenus.Any())
+                                {
+                                    // Render parent menu with dropdown
+                                    <li class="dropdown">
+                                        <a asp-controller="@menu.LinkUrl?.Replace("/", "").Trim()" asp-action="Index">
+                                            <span>@menu.Title</span>
+                                            <i class="bi bi-chevron-down toggle-dropdown"></i>
+                                        </a>
+                                        <ul>
+                                            @foreach (var sub in submenus)
+                                            {
+                                                <li>
+                                                    <a asp-controller="@sub?.LinkUrl?.Replace("/", "").Trim()" asp-action="Index">
+                                                        @sub?.Title
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    // Render standalone menu item
+                                    <li>
+                                        <a asp-controller="@menu.LinkUrl?.Replace("/", "").Trim()" asp-action="Index">
+                                            @menu.Title
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // Default static menu items when no menus are available
+                            <li><a asp-controller="Home" asp-action="Index" class="active">Home</a></li>
+                            <li class="dropdown">
+                                <a asp-controller="About" asp-action="Index">
+                                    <span>About</span>
+                                    <i class="bi bi-chevron-down toggle-dropdown"></i>
+                                </a>
+                                <ul>
+                                    <li><a asp-controller="Team" asp-action="Index">Team</a></li>
+                                    <li><a asp-controller="Testimonials" asp-action="Index">Testimonials</a></li>
+                                </ul>
+                            </li>
+                            <li><a asp-controller="Services" asp-action="Index">Services</a></li>
+                            <li><a asp-controller="Portfolio" asp-action="Index">Portfolio</a></li>
+                            <li><a asp-controller="Pricing" asp-action="Index">Pricing</a></li>
+                            <li><a asp-controller="Blog" asp-action="Index">Blog</a></li>
+                            <li><a asp-controller="Contact" asp-action="Index">Contact</a></li>
+                        }
+                    }
+
+                   
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
@@ -117,11 +166,25 @@
                 <div class="col-lg-2 col-md-3 footer-links">
                     <h4>Useful Links</h4>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About us</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Terms of service</a></li>
-                        <li><a href="#">Privacy policy</a></li>
+
+                        @{
+                            if (company?.FooterLinks != null)
+                            {
+                                foreach (var flink in company?.FooterLinks)
+                                {
+                                    <li><a href=@flink?.LinkUrl>@flink?.Title</a></li>
+                                }
+                            }
+                            else
+                            {
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">About us</a></li>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">Terms of service</a></li>
+                                <li><a href="#">Privacy policy</a></li>
+                            }
+                        }
+                       
                     </ul>
                 </div>
 
@@ -129,7 +192,7 @@
                     <h4>Our Services</h4>
                     <ul>
                         @{
-                            if (company.Services != null)
+                            if (company?.Services != null)
                             {
                                 foreach (var serv in company?.Services)
                                 {
@@ -188,6 +251,7 @@
     <script src="~/client/assets/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="~/client/assets/vendor/waypoints/noframework.waypoints.js"></script>
     <script src="~/client/assets/vendor/swiper/swiper-bundle.min.js"></script>
+ 
 
     <!-- Main JS File -->
     <script src="~/client/assets/js/main.js"></script>

@@ -21,5 +21,6 @@
         public string _SiteSettingsUrl { get; set; }
         public string _SliderUrl { get; set; }
         public string _SocialMediaLinkUrl { get; set; }
+        public string _AboutUrl { get; set; }
     }
 }

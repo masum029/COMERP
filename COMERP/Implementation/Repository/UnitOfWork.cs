@@ -37,6 +37,8 @@ namespace COMERP.Implementation.Repository
 
         public ISocialMediaLinkRepository socialMediaLinkRepository { get; private set; }
 
+        public IAboutRepository aboutRepository { get; private set; }
+
         public UnitOfWork(ApplicationDbContext applicationDbContext, DapperDbContext dapperDbContext, IHttpContextAccessor httpContextAccessor)
         {
             _applicationDbContext = applicationDbContext;
@@ -56,7 +58,7 @@ namespace COMERP.Implementation.Repository
             siteSettingsRepository = new SiteSettingsRepository(applicationDbContext, dapperDbContext, httpContextAccessor);
             sliderRepository = new SliderRepository(applicationDbContext, dapperDbContext, httpContextAccessor);
             socialMediaLinkRepository = new SocialMediaLinkRepository(applicationDbContext, dapperDbContext, httpContextAccessor);
-            
+            aboutRepository = new AboutRepository(applicationDbContext, dapperDbContext, httpContextAccessor);
 
 
         }

@@ -195,9 +195,8 @@ window.updateFooterLink = async (id) => {
             $('#Title').val(result.data.title);
             $('#LinkUrl').val(result.data.linkUrl);
             $('#DisplayOrder').val(result.data.displayOrder);
-            $('#IsVisible').val(result.data.isVisible);
 
-            
+            $('#IsVisible').prop('checked', result.data.isVisible);
 
             $(modalCreateId).modal('show');
             resetValidation(InitializegetFooterLinkvalidation, formName);

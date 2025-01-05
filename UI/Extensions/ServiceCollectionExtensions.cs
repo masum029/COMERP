@@ -6,6 +6,7 @@ using UI.Models;
 using UI.Services.Implementations;
 using UI.Services.Implemettions;
 using UI.Services.Interface;
+using UI.ViewModel;
 
 namespace UI.Extensions
 {
@@ -51,6 +52,8 @@ namespace UI.Extensions
             services.AddScoped<IClientServices<SiteSettings>, ClientServices<SiteSettings>>();
             services.AddScoped<IClientServices<Slider>, ClientServices<Slider>>();
             services.AddScoped<IClientServices<SocialMediaLink>, ClientServices<SocialMediaLink>>();
+            services.AddScoped<IClientServices<About>, ClientServices<About>>();
+            services.AddScoped<IClientServices<AboutVm>, ClientServices<AboutVm>>();
            
 
 

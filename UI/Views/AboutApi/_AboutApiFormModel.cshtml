@@ -1,0 +1,81 @@
+﻿@model UI.ViewModel.AboutVm
+@using System.Security.Claims
+@using Microsoft.IdentityModel.JsonWebTokens
+@using System.Text.RegularExpressions
+
+
+@{
+    var EntityName = "AboutApi";
+    var splitEntityName = Regex.Replace(EntityName, "(?<!^)([A-Z])", " $1").Replace("Api", "");
+    var ModelID = $"COMERP_{EntityName}ModelCreate";
+    var FromID = $"{EntityName}Form";
+    var SaveChangesId = $"btnSave{EntityName}";
+    var UpdateId = $"btnUpdate{EntityName}";
+    var AddLabel = $"{EntityName}ModalLabelAdd";
+    var UpdateLabel = $"{EntityName}ModalLabelUpdate";
+}
+<div class="modal fade" id="@ModelID" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="@AddLabel" class="modal-title">Create @splitEntityName</h5>
+                <h5 id="@UpdateLabel" class="modal-title">Update @splitEntityName</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="@FromID" class="row g-3">
+                    <!-- About Fields -->
+                    <div class="col-md-6">
+                        <label asp-for="About.Title" class="form-label">Title <span class="text-danger font-weight-bold">*</span></label>
+                        <input type="text" asp-for="About.Title" class="form-control" id="Title">
+                        <span asp-validation-for="About.Title" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label asp-for="About.Description" class="form-label">Description</label>
+                        <textarea asp-for="About.Description" class="form-control" id="Description"></textarea>
+                        <span asp-validation-for="About.Description" class="text-danger"></span>
+                    </div>
+
+                    <!-- SubAbout Section -->
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-secondary" id="btnAddSubAbout">Add Sub About</button>
+                    </div>
+                    <div class="col-md-12" id="subAboutContainer">
+                        <!-- Dynamically added SubAbout fields will appear here -->
+                    </div>
+
+                    <!-- File Upload -->
+                    <div class="col-md-4">
+                        <label asp-for="About.FormFile" class="form-label">Image</label>
+                        <input asp-for="About.FormFile" class="form-control" id="FormFile">
+                        <span asp-validation-for="About.FormFile" class="text-danger"></span>
+                    </div>
+
+                    <!-- Company Dropdown -->
+                    <div class="col-md-4">
+                        <label asp-for="About.CompanyId" class="form-label">Company <span class="text-danger">*</span></label>
+                        <select asp-for="About.CompanyId" class="form-control" id="CompanyDropdown">
+                            <option value="">Select Company</option>
+                        </select>
+                        <span asp-validation-for="About.CompanyId" class="text-danger"></span>
+                    </div>
+
+                    <!-- Visibility Checkbox -->
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" asp-for="About.IsVisible" type="checkbox" id="IsVisible">
+                            <label class="form-check-label" for="IsVisible">Visible</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="@SaveChangesId">Save changes</button>
+                <button type="button" class="btn btn-primary" id=@UpdateId>Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

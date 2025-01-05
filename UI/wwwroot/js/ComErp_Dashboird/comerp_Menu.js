@@ -105,10 +105,7 @@ const InitializegetMenuvalidation = $(formName).validate({
         $(element).valid();
     },
     rules: {
-        ParentMenuId: {
-            required: true,
- 
-        },
+        
         Title: {
             required: true,
 

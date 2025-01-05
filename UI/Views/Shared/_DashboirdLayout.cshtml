@@ -220,7 +220,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#Company-nav" data-bs-toggle="collapse">
-                    <i class="bi bi-building"></i><span>Company Management</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-sliders2"></i><span>Home Settings</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="Company-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
@@ -229,58 +229,8 @@
                         </a>
                     </li>
                     <li>
-                        <a asp-action="Index" asp-controller="Client">
-                            <i class="bi bi-circle"></i><span>Client</span>
-                        </a>
-                    </li>
-                    <li>
                         <a asp-action="Index" asp-controller="CompanyDetails">
                             <i class="bi bi-circle"></i><span>Company Details</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="ContactFormSubmission">
-                            <i class="bi bi-circle"></i><span>Contact Form Submission</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="Event">
-                            <i class="bi bi-circle"></i><span>Event</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="SocialMediaLink">
-                            <i class="bi bi-circle"></i><span>Social Media Link</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="Slider">
-                            <i class="bi bi-circle"></i><span>Slider</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="SiteSettings">
-                            <i class="bi bi-circle"></i><span>Settings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="Service">
-                            <i class="bi bi-circle"></i><span>Service</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="Project">
-                            <i class="bi bi-circle"></i><span>Project</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="PageContent">
-                            <i class="bi bi-circle"></i><span>Page Content</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="News">
-                            <i class="bi bi-circle"></i><span>News</span>
                         </a>
                     </li>
                     <li>
@@ -289,11 +239,148 @@
                         </a>
                     </li>
                     <li>
+                        <a asp-action="Index" asp-controller="Slider">
+                            <i class="bi bi-circle"></i><span>Slider</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="Client">
+                            <i class="bi bi-circle"></i><span>Client</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="SocialMediaLink">
+                            <i class="bi bi-circle"></i><span>Social Media Link</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#About-nav" data-bs-toggle="collapse">
+                    <i class="bi bi-sliders2"></i><span>About Settings</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="About-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a asp-action="Index" asp-controller="AboutApi">
+                            <i class="bi bi-circle"></i><span>About</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Services-nav" data-bs-toggle="collapse">
+                    <i class="bi bi-sliders2"></i><span>Services Settings</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Services-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a asp-action="Index" asp-controller="Service">
+                            <i class="bi bi-circle"></i><span>Service</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Portfolio-nav" data-bs-toggle="collapse">
+                    <i class="bi bi-sliders2"></i><span>
+                        Portfolio Settings
+                    </span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Portfolio-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a asp-action="Index" asp-controller="Project">
+                            <i class="bi bi-circle"></i><span>Project</span>
+                        </a>
+                    </li>
+                </ul>
+            </li> <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Pricing-nav" data-bs-toggle="collapse">
+                    <i class="bi bi-sliders2"></i><span>
+                        Pricing Settings
+                    </span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Pricing-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Blog-nav" data-bs-toggle="collapse">
+                    <i class="bi bi-sliders2"></i><span>
+                        Blog Settings
+                        
+                    </span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Blog-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a asp-action="Index" asp-controller="News">
+                            <i class="bi bi-circle"></i><span>News</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="PageContent">
+                            <i class="bi bi-circle"></i><span>Page Content</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="Event">
+                            <i class="bi bi-circle"></i><span>Event</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Contact-nav" data-bs-toggle="collapse">
+                    <i class="bi bi-sliders2"></i><span>
+                        Contact Settings
+                    </span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Contact-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a asp-action="Index" asp-controller="ContactFormSubmission">
+                            <i class="bi bi-circle"></i><span>Contact Form Submission</span>
+                        </a>
+                    </li>
+                </ul>
+            </li> 
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Team-nav" data-bs-toggle="collapse">
+                    <i class="bi bi-sliders2"></i><span>
+                        Team Settings
+                        
+                    </span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Team-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                
+                </ul>
+            </li> 
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Testimonials-nav" data-bs-toggle="collapse">
+                    <i class="bi bi-sliders2"></i><span>
+                        Testimonials Settings
+                    </span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Testimonials-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Footer-nav" data-bs-toggle="collapse">
+                    <i class="bi bi-sliders2"></i><span>
+                        Footer Settings
+                    </span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Footer-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
                         <a asp-action="Index" asp-controller="FooterLink">
                             <i class="bi bi-circle"></i><span>Footer Link</span>
                         </a>
                     </li>
-                    
+                    <li>
+                        <a asp-action="Index" asp-controller="SiteSettings">
+                            <i class="bi bi-circle"></i><span>Settings</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             
